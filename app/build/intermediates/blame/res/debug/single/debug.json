@@ -728,6 +728,10 @@
         "source": "C:\\Users\\mdhsi\\.gradle\\caches\\transforms-2\\files-2.1\\6119d746697059b7e1b74aab4d181f56\\appcompat-1.1.0\\res\\drawable-xhdpi-v4\\abc_ic_commit_search_api_mtrl_alpha.png"
     },
     {
+        "merged": "C:\\Users\\mdhsi\\AndroidStudioProjects\\PopularMovies\\app\\build\\intermediates\\res\\merged\\debug\\layout_recyclerview_row.xml.flat",
+        "source": "C:\\Users\\mdhsi\\AndroidStudioProjects\\PopularMovies\\app\\src\\main\\res\\layout\\recyclerview_row.xml"
+    },
+    {
         "merged": "C:\\Users\\mdhsi\\AndroidStudioProjects\\PopularMovies\\app\\build\\intermediates\\res\\merged\\debug\\mipmap-mdpi_ic_launcher_round.png.flat",
         "source": "C:\\Users\\mdhsi\\AndroidStudioProjects\\PopularMovies\\app\\src\\main\\res\\mipmap-mdpi\\ic_launcher_round.png"
     },
