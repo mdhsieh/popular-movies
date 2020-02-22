@@ -5,10 +5,11 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -37,7 +38,12 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerView.setHasFixedSize(true);
 
-        movieAdapter = new MovieAdapter(movieNames);
+        movieAdapter = new MovieAdapter(movieNames, this);
         recyclerView.setAdapter(movieAdapter);
+    }
+
+    @Override
+    public void onItemClick(String movie, int position) {
+        Toast.makeText(this, "You clicked " + movie + " on row number " + position, Toast.LENGTH_SHORT).show();
     }
 }

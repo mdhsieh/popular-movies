@@ -12,20 +12,41 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
+
     private List<String> mData;
 
-    public MovieAdapter(List<String> data)
+    private MovieAdapterOnClickHandler mClickHandler;
+
+    public interface MovieAdapterOnClickHandler
     {
-        mData = data;
+        void onItemClick(String movie, int position);
     }
 
-    public static class MovieViewHolder extends RecyclerView.ViewHolder
+    public MovieAdapter(List<String> data, MovieAdapterOnClickHandler clickHandler)
+    {
+        mData = data;
+        mClickHandler = clickHandler;
+    }
+
+    public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
         public TextView movieTextView;
+
         public MovieViewHolder(View itemView)
         {
             super(itemView);
             movieTextView = itemView.findViewById(R.id.tv_movie_name);
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            if (mClickHandler != null)
+            {
+                int adapterPosition = getAdapterPosition();
+                String movie = mData.get(adapterPosition);
+                mClickHandler.onItemClick(movie, adapterPosition);
+            }
         }
     }
 
