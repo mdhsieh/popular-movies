@@ -9,6 +9,9 @@
         android:minSdkVersion="15"
         android:targetSdkVersion="29" />
 
+    <!-- This permission is necessary in order for Popular Movies to perform network access. -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:appComponentFactory="androidx.core.app.CoreComponentFactory"
@@ -19,6 +22,15 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.example.android.popularmovies.DetailActivity"
+            android:parentActivityName="com.example.android.popularmovies.MainActivity" >
+
+            <!-- The meta-data tag is required if you support API level 15 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
         <activity android:name="com.example.android.popularmovies.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

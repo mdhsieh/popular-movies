@@ -3686,14 +3686,15 @@ public final class R {
     public static final int title_template=0x7f0700ae;
     public static final int top=0x7f0700af;
     public static final int topPanel=0x7f0700b0;
-    public static final int tv_movie_name=0x7f0700b1;
-    public static final int unchecked=0x7f0700b2;
-    public static final int uniform=0x7f0700b3;
-    public static final int up=0x7f0700b4;
-    public static final int useLogo=0x7f0700b5;
-    public static final int withText=0x7f0700b6;
-    public static final int wrap=0x7f0700b7;
-    public static final int wrap_content=0x7f0700b8;
+    public static final int tv_display_movie_name=0x7f0700b1;
+    public static final int tv_movie_name=0x7f0700b2;
+    public static final int unchecked=0x7f0700b3;
+    public static final int uniform=0x7f0700b4;
+    public static final int up=0x7f0700b5;
+    public static final int useLogo=0x7f0700b6;
+    public static final int withText=0x7f0700b7;
+    public static final int wrap=0x7f0700b8;
+    public static final int wrap_content=0x7f0700b9;
   }
   public static final class integer {
     public static final int abc_config_activityDefaultDur=0x7f080000;
@@ -3740,19 +3741,20 @@ public final class R {
     public static final int abc_search_view=0x7f0a0019;
     public static final int abc_select_dialog_material=0x7f0a001a;
     public static final int abc_tooltip=0x7f0a001b;
-    public static final int activity_main=0x7f0a001c;
-    public static final int custom_dialog=0x7f0a001d;
-    public static final int notification_action=0x7f0a001e;
-    public static final int notification_action_tombstone=0x7f0a001f;
-    public static final int notification_template_custom_big=0x7f0a0020;
-    public static final int notification_template_icon_group=0x7f0a0021;
-    public static final int notification_template_part_chronometer=0x7f0a0022;
-    public static final int notification_template_part_time=0x7f0a0023;
-    public static final int recyclerview_row=0x7f0a0024;
-    public static final int select_dialog_item_material=0x7f0a0025;
-    public static final int select_dialog_multichoice_material=0x7f0a0026;
-    public static final int select_dialog_singlechoice_material=0x7f0a0027;
-    public static final int support_simple_spinner_dropdown_item=0x7f0a0028;
+    public static final int activity_detail=0x7f0a001c;
+    public static final int activity_main=0x7f0a001d;
+    public static final int custom_dialog=0x7f0a001e;
+    public static final int notification_action=0x7f0a001f;
+    public static final int notification_action_tombstone=0x7f0a0020;
+    public static final int notification_template_custom_big=0x7f0a0021;
+    public static final int notification_template_icon_group=0x7f0a0022;
+    public static final int notification_template_part_chronometer=0x7f0a0023;
+    public static final int notification_template_part_time=0x7f0a0024;
+    public static final int recyclerview_row=0x7f0a0025;
+    public static final int select_dialog_item_material=0x7f0a0026;
+    public static final int select_dialog_multichoice_material=0x7f0a0027;
+    public static final int select_dialog_singlechoice_material=0x7f0a0028;
+    public static final int support_simple_spinner_dropdown_item=0x7f0a0029;
   }
   public static final class mipmap {
     public static final int ic_launcher=0x7f0b0000;

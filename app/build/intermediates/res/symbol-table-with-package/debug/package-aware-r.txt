@@ -868,6 +868,7 @@ id titleDividerNoCustom
 id title_template
 id top
 id topPanel
+id tv_display_movie_name
 id tv_movie_name
 id unchecked
 id uniform
@@ -916,6 +917,7 @@ layout abc_search_dropdown_item_icons_2line
 layout abc_search_view
 layout abc_select_dialog_material
 layout abc_tooltip
+layout activity_detail
 layout activity_main
 layout custom_dialog
 layout notification_action

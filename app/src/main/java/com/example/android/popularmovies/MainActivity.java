@@ -1,9 +1,12 @@
 package com.example.android.popularmovies;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
@@ -31,8 +34,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         recyclerView = findViewById(R.id.rv_movies);
 
-        LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        /* LinearLayoutManager layoutManager
+                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false); */
+
+        // 2 column grid layout
+        GridLayoutManager layoutManager =
+                new GridLayoutManager(this, 2, GridLayoutManager.VERTICAL, false);
 
         recyclerView.setLayoutManager(layoutManager);
 
@@ -44,6 +51,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     @Override
     public void onItemClick(String movie, int position) {
-        Toast.makeText(this, "You clicked " + movie + " on row number " + position, Toast.LENGTH_SHORT).show();
+        // Toast.makeText(this, "You clicked " + movie + " on row number " + position, Toast.LENGTH_SHORT).show();
+        Context context = this;
+        Class destinationClass = DetailActivity.class;
+        Intent intentToStartDetailActivity = new Intent(context, destinationClass);
+        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, movie);
+        startActivity(intentToStartDetailActivity);
     }
 }
