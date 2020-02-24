@@ -811,6 +811,7 @@ id on
 id packed
 id parent
 id parentPanel
+id pb_loading_indicator
 id percent
 id progress_circular
 id progress_horizontal
@@ -869,6 +870,7 @@ id title_template
 id top
 id topPanel
 id tv_display_movie_name
+id tv_error_message_display
 id tv_movie_name
 id unchecked
 id uniform
@@ -961,6 +963,7 @@ string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string app_name
+string error_message
 string search_menu_title
 string status_bar_notification_info_overflow
 style AlertDialog_AppCompat

@@ -7,9 +7,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.URL;
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
@@ -18,6 +24,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
+
+    private TextView errorMessageDisplay;
+    private ProgressBar loadingIndicator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +43,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         recyclerView = findViewById(R.id.rv_movies);
 
+        errorMessageDisplay = findViewById(R.id.tv_error_message_display);
+
+        loadingIndicator = findViewById(R.id.pb_loading_indicator);
+
         /* LinearLayoutManager layoutManager
                 = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false); */
 
@@ -47,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         movieAdapter = new MovieAdapter(movieNames, this);
         recyclerView.setAdapter(movieAdapter);
+
+        loadMovieData();
     }
 
     @Override
@@ -58,4 +73,96 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, movie);
         startActivity(intentToStartDetailActivity);
     }
+
+    /**
+     * This method will get the user's preferred sorting option, and then tell some
+     * background method to get the movie data in the background.
+     */
+    private void loadMovieData() {
+        showMovieDataView();
+
+        String option = "popular";
+        new FetchMoviesTask().execute(option);
+
+        //String location = SunshinePreferences.getPreferredWeatherLocation(this);
+        //new FetchWeatherTask().execute(location);
+    }
+
+    /**
+     * This method will make the View for the weather data visible and
+     * hide the error message.
+     */
+    private void showMovieDataView() {
+        // First, make sure the error is invisible
+        errorMessageDisplay.setVisibility(View.INVISIBLE);
+        // Then, make sure the weather data is visible
+        // mRecyclerView.setVisibility(View.VISIBLE);
+    }
+
+    /**
+     * This method will make the error message visible and hide the weather
+     * View.
+     */
+    private void showErrorMessage() {
+        // First, hide the currently visible data
+        // mRecyclerView.setVisibility(View.INVISIBLE);
+        // Then, show the error
+        errorMessageDisplay.setVisibility(View.VISIBLE);
+    }
+
+    public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected String[] doInBackground(String... params) {
+
+            if (params.length == 0) {
+                return null;
+            }
+
+            /*String location = params[0];
+            URL weatherRequestUrl = NetworkUtils.buildUrl(location);*/
+
+            try {
+
+                String[] testArray = new String[5];
+                for (int i = 0; i < 5; i++)
+                {
+                    testArray[i] = "Doing " + i;
+                    Log.d(TAG, testArray[i]);
+                }
+                return testArray;
+
+                /*String jsonWeatherResponse = NetworkUtils
+                        .getResponseFromHttpUrl(weatherRequestUrl);
+
+                String[] simpleJsonWeatherData = OpenWeatherJsonUtils
+                        .getSimpleWeatherStringsFromJson(MainActivity.this, jsonWeatherResponse);
+
+                return simpleJsonWeatherData;*/
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(String[] movieData) {
+            loadingIndicator.setVisibility(View.INVISIBLE);
+            if (movieData != null) {
+                showMovieDataView();
+                Toast.makeText(getApplicationContext(), "Finished execution", Toast.LENGTH_LONG).show();
+                // mForecastAdapter.setWeatherData(weatherData);
+            } else {
+                showErrorMessage();
+            }
+        }
+    }
+
 }
