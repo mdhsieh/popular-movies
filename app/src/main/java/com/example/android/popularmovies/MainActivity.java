@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,9 +17,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.android.popularmovies.utilities.NetworkUtils;
+import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
 
 import java.net.URL;
 import java.util.ArrayList;
+
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
@@ -34,6 +40,27 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        /* Android APIs >= 16 & < 22 have TLS 1.2 disabled by default,
+        so we enable TLS on older devices.
+
+        Otherwise an SSL handshake aborted error will
+        occur and the app won't connect to the Internet.
+        */
+        if (Build.VERSION.SDK_INT >= 16 && Build.VERSION.SDK_INT < 22) {
+            try {
+                SSLContext sslContext = SSLContext.getInstance("TLSv1.2");
+                sslContext.init(null, null, null);
+                SSLSocketFactory tlsSocketFactory = null;
+
+                tlsSocketFactory = new TLSSocketFactory(sslContext.getSocketFactory());
+
+                // using HttpsURLConnection to set the socket factory to TLS
+                HttpsURLConnection.setDefaultSSLSocketFactory(tlsSocketFactory);
+            } catch (Exception e) {
+                Log.d("TLS", "Error while setting TLSv1.2");
+            }
+        }
 
         // data to populate the RecyclerView with
         ArrayList<String> movieNames = new ArrayList<>();
@@ -91,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * This method will make the View for the weather data visible and
+     * This method will make the View for the movie data visible and
      * hide the error message.
      */
     private void showMovieDataView() {
@@ -102,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * This method will make the error message visible and hide the weather
+     * This method will make the error message visible and hide the movie
      * View.
      */
     private void showErrorMessage() {
@@ -132,27 +159,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
             try {
 
-                String[] testArray = new String[5];
-                for (int i = 0; i < 5; i++)
-                {
-                    testArray[i] = "Doing " + i;
-                    Log.d(TAG, testArray[i]);
-                }
-
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
 
+                String[] simpleJsonMovieData = OpenMovieJsonUtils
+                        .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
+
                 Log.d(TAG, "json response: " + jsonMovieResponse);
 
-                return testArray;
+                for (int i = 0; i < simpleJsonMovieData.length; i++) {
+                    Log.d(TAG, "parsed movie title " + i + ": " + simpleJsonMovieData[i]);
+                }
 
-                /*String jsonWeatherResponse = NetworkUtils
-                        .getResponseFromHttpUrl(weatherRequestUrl);
-
-                String[] simpleJsonWeatherData = OpenWeatherJsonUtils
-                        .getSimpleWeatherStringsFromJson(MainActivity.this, jsonWeatherResponse);
-
-                return simpleJsonWeatherData;*/
+                return simpleJsonMovieData;
 
             } catch (Exception e) {
                 e.printStackTrace();

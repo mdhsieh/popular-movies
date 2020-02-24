@@ -39,8 +39,9 @@ public final class NetworkUtils {
 
     // "http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]"
 
-    private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
+    // private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
 
+    private static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie";
 
     private static final String OPTION_POPULAR_PARAM = "/popular";
 
@@ -51,19 +52,12 @@ public final class NetworkUtils {
     private final static String API_KEY_PARAM = "api_key=" + ApiKey.getApiKey();
 
     /**
-     * Builds the URL used to talk to the MovieDB using an option.
+     * Builds the URL used to talk to MovieDB using an option.
      *
      * @param optionQuery The option that will be queried for.
-     * @return The URL to use to query the MovieDB.
+     * @return The URL to use to query MovieDB.
      */
     public static URL buildUrl(String optionQuery) {
-
-        /*Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
-                .appendQueryParameter(QUERY_PARAM, locationQuery)
-                .appendQueryParameter(FORMAT_PARAM, format)
-                .appendQueryParameter(UNITS_PARAM, units)
-                .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
-                .build();*/
 
         URL url = null;
 
@@ -78,10 +72,10 @@ public final class NetworkUtils {
         }
 
         try {
-            //url = new URL(builtUri.toString());
+
             url = new URL(MOVIE_BASE_URL + OPTION_PARAM + QUESTION_PARAM + API_KEY_PARAM);
         } catch (MalformedURLException e) {
-            Log.d(TAG, "malformed url exception", e);
+            Log.e(TAG, "malformed url exception", e);
             e.printStackTrace();
         }
 
@@ -98,7 +92,10 @@ public final class NetworkUtils {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+        // HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+
+        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
 
@@ -112,7 +109,7 @@ public final class NetworkUtils {
                 return null;
             }
         } catch(Exception exception) {
-            Log.d(TAG, "Exception in getResponseFromHttpUrl", exception);
+            Log.e(TAG, "Exception in getResponseFromHttpUrl", exception);
             return null;
         } finally {
             urlConnection.disconnect();
