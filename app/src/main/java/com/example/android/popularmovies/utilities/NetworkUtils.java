@@ -81,6 +81,7 @@ public final class NetworkUtils {
             //url = new URL(builtUri.toString());
             url = new URL(MOVIE_BASE_URL + OPTION_PARAM + QUESTION_PARAM + API_KEY_PARAM);
         } catch (MalformedURLException e) {
+            Log.d(TAG, "malformed url exception", e);
             e.printStackTrace();
         }
 
@@ -97,7 +98,7 @@ public final class NetworkUtils {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
-        HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
         try {
             InputStream in = urlConnection.getInputStream();
 
@@ -110,6 +111,9 @@ public final class NetworkUtils {
             } else {
                 return null;
             }
+        } catch(Exception exception) {
+            Log.d(TAG, "Exception in getResponseFromHttpUrl", exception);
+            return null;
         } finally {
             urlConnection.disconnect();
         }
