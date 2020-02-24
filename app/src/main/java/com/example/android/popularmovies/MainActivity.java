@@ -15,6 +15,8 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.popularmovies.utilities.NetworkUtils;
+
 import java.net.URL;
 import java.util.ArrayList;
 
@@ -125,8 +127,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 return null;
             }
 
-            /*String location = params[0];
-            URL weatherRequestUrl = NetworkUtils.buildUrl(location);*/
+            String option = params[0];
+            URL movieRequestUrl = NetworkUtils.buildUrl(option);
 
             try {
 
@@ -136,6 +138,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     testArray[i] = "Doing " + i;
                     Log.d(TAG, testArray[i]);
                 }
+
+                String jsonMovieResponse = NetworkUtils
+                        .getResponseFromHttpUrl(movieRequestUrl);
+
+                Log.d(TAG, "json response: " + jsonMovieResponse);
+
                 return testArray;
 
                 /*String jsonWeatherResponse = NetworkUtils

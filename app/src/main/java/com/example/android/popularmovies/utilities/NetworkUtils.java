@@ -34,45 +34,52 @@ public final class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]";
+    /*In order to request popular movies you will want to request data from
+     the /movie/popular and /movie/top_rated endpoints*/
 
-    /*
-     * NOTE: These values only effect responses from OpenWeatherMap, NOT from the fake weather
-     * server. They are simply here to allow us to teach you how to build a URL if you were to use
-     * a real API.If you want to connect your app to OpenWeatherMap's API, feel free to! However,
-     * we are not going to show you how to do so in this course.
-     */
+    // "http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]"
 
-    /* The format we want our API to return */
-    private static final String format = "json";
-    /* The units we want our API to return */
-    private static final String units = "metric";
-    /* The number of days we want our API to return */
-    private static final int numDays = 14;
+    private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
 
-    final static String QUERY_PARAM = "q";
-    final static String FORMAT_PARAM = "mode";
-    final static String UNITS_PARAM = "units";
-    final static String DAYS_PARAM = "cnt";
+
+    private static final String OPTION_POPULAR_PARAM = "/popular";
+
+    private static final String OPTION_RATED_PARAM = "/top_rated";
+
+    final static String QUESTION_PARAM = "?";
+
+    private final static String API_KEY_PARAM = "api_key=" + ApiKey.getApiKey();
 
     /**
-     * Builds the URL used to talk to the weather server using a location. This location is based
-     * on the query capabilities of the weather provider that we are using.
+     * Builds the URL used to talk to the MovieDB using an option.
      *
-     * @param locationQuery The location that will be queried for.
-     * @return The URL to use to query the weather server.
+     * @param optionQuery The option that will be queried for.
+     * @return The URL to use to query the MovieDB.
      */
-    public static URL buildUrl(String locationQuery) {
-        Uri builtUri = Uri.parse(MOVIE_BASE_URL).buildUpon()
+    public static URL buildUrl(String optionQuery) {
+
+        /*Uri builtUri = Uri.parse(FORECAST_BASE_URL).buildUpon()
                 .appendQueryParameter(QUERY_PARAM, locationQuery)
                 .appendQueryParameter(FORMAT_PARAM, format)
                 .appendQueryParameter(UNITS_PARAM, units)
                 .appendQueryParameter(DAYS_PARAM, Integer.toString(numDays))
-                .build();
+                .build();*/
 
         URL url = null;
+
+        String OPTION_PARAM;
+        if (optionQuery.equals("popular"))
+        {
+            OPTION_PARAM = OPTION_POPULAR_PARAM;
+        }
+        else
+        {
+            OPTION_PARAM = OPTION_RATED_PARAM;
+        }
+
         try {
-            url = new URL(builtUri.toString());
+            //url = new URL(builtUri.toString());
+            url = new URL(MOVIE_BASE_URL + OPTION_PARAM + QUESTION_PARAM + API_KEY_PARAM);
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
