@@ -19,6 +19,8 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.util.Log;
 
+import com.example.android.popularmovies.model.Movie;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -35,16 +37,16 @@ public final class OpenMovieJsonUtils {
     private static final String TAG = OpenMovieJsonUtils.class.getSimpleName();
 
     /**
-     * This method parses JSON from a web response and returns an array of Strings
+     * This method parses JSON from a web response and returns an array of Movies
      * describing the movie from the list of movie results.
      *
      * @param movieJsonStr JSON response from server
      *
-     * @return Array of Strings describing weather data
+     * @return Array of Movies describing movie data
      *
      * @throws JSONException If JSON data cannot be properly parsed
      */
-    public static List<String> getSimpleMovieStringsFromJson(Context context, String movieJsonStr)
+    public static List<Movie> getSimpleMovieStringsFromJson(Context context, String movieJsonStr)
             throws JSONException {
 
         JSONObject movieJson = new JSONObject(movieJsonStr);
@@ -55,17 +57,30 @@ public final class OpenMovieJsonUtils {
         Log.d(TAG, "Number of movies: " + NUM_MOVIE_RESULTS);
 
         // String[] parsedMovieData = new String[NUM_MOVIE_RESULTS];
-        ArrayList<String> parsedMovieData = new ArrayList<String>();
+        ArrayList<Movie> parsedMovieData = new ArrayList<Movie>();
 
         JSONObject movieResultObject;
+
+        Movie movie;
+        int id;
         String title;
+        String posterPath;
+        String overview;
+        int userRating;
+        String releaseDate;
         for (int i = 0; i < NUM_MOVIE_RESULTS; i++)
         {
             movieResultObject = movieResultsArray.optJSONObject(i);
+            id = movieResultObject.optInt("id");
             title = movieResultObject.optString("title");
+            posterPath = movieResultObject.optString("poster_path");
+            overview = movieResultObject.optString("overview");
+            userRating = movieResultObject.optInt("vote_average");
+            releaseDate = movieResultObject.optString("release_date");
 
-            // add title to returned movie String
-            parsedMovieData.add(title);
+            movie = new Movie(id, title, posterPath, overview, userRating, releaseDate);
+
+            parsedMovieData.add(movie);
         }
 
         return parsedMovieData;

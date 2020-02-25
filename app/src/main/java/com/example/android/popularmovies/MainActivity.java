@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
 import com.example.android.popularmovies.utilities.TLSSocketFactory;
@@ -140,11 +141,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         // Then, show the error
         errorMessageDisplay.setVisibility(View.VISIBLE);
 
-        Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
+        // Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
     }
 
     // public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
-    public class FetchMoviesTask extends AsyncTask<String, Void, List<String>> {
+    public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
         protected void onPreExecute() {
@@ -154,7 +155,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         @Override
         // protected String[] doInBackground(String... params) {
-        protected List<String> doInBackground(String... params) {
+        protected List<Movie> doInBackground(String... params) {
 
             if (params.length == 0) {
                 return null;
@@ -170,14 +171,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
                 /*String[] simpleJsonMovieData = OpenMovieJsonUtils
                         .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);*/
-                List<String> simpleJsonMovieData = OpenMovieJsonUtils
+                List<Movie> simpleJsonMovieData = OpenMovieJsonUtils
                         .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
 
                 Log.d(TAG, "json response: " + jsonMovieResponse);
-
-                for (int i = 0; i < simpleJsonMovieData.size(); i++) {
-                    Log.d(TAG, "parsed movie title " + i + ": " + simpleJsonMovieData.get(i));
-                }
 
                 return simpleJsonMovieData;
 
@@ -188,12 +185,43 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
 
         @Override
-        protected void onPostExecute(List<String> movieData) {
+        protected void onPostExecute(List<Movie> movieData) {
             loadingIndicator.setVisibility(View.INVISIBLE);
             if (movieData != null) {
                 showMovieDataView();
-                Toast.makeText(getApplicationContext(), "Finished execution", Toast.LENGTH_LONG).show();
-                movieAdapter.setMovieData(movieData);
+                // Toast.makeText(getApplicationContext(), "Finished execution", Toast.LENGTH_LONG).show();
+
+                Movie movie;
+                String title;
+                ArrayList<String> movieTitles = new ArrayList<>();
+
+                int id;
+                String posterPath;
+                String overview;
+                int userRating;
+                String releaseDate;
+
+                for (int i = 0; i < movieData.size(); i++) {
+                    movie = movieData.get(i);
+                    title = movie.getTitle();
+                    movieTitles.add(title);
+
+                    id = movie.getId();
+                    posterPath = movie.getPosterImage();
+                    overview = movie.getSynopsis();
+                    userRating = movie.getUserRating();
+                    releaseDate = movie.getReleaseDate();
+
+                    Log.d(TAG, "parsed movie title " + i + ": " + title);
+
+                    Log.d(TAG, "id: " + id);
+                    Log.d(TAG, "poster image: " + posterPath);
+                    Log.d(TAG, "synopsis: " + overview);
+                    Log.d(TAG, "user rating: " + userRating);
+                    Log.d(TAG, "release date: " + releaseDate);
+                }
+                movieAdapter.setMovieData(movieTitles);
+                // movieAdapter.setMovieData(movieData);
             } else {
                 showErrorMessage();
             }
