@@ -1,4 +1,4 @@
-package com.example.android.popularmovies;
+package com.example.android.popularmovies.utilities;
 
 // by carlol
 // https://stackoverflow.com/questions/37395321/android-4-2-2-how-to-enable-tls-1-2-for-httpsurlconnection

@@ -2,7 +2,6 @@ package com.example.android.popularmovies;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
@@ -18,9 +17,11 @@ import android.widget.Toast;
 
 import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
+import com.example.android.popularmovies.utilities.TLSSocketFactory;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
@@ -35,6 +36,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     private TextView errorMessageDisplay;
     private ProgressBar loadingIndicator;
+
+    private ArrayList<String> movieNames = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,17 +61,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 // using HttpsURLConnection to set the socket factory to TLS
                 HttpsURLConnection.setDefaultSSLSocketFactory(tlsSocketFactory);
             } catch (Exception e) {
-                Log.d("TLS", "Error while setting TLSv1.2");
+                Log.e("TLS", "Error while setting TLSv1.2");
             }
         }
 
         // data to populate the RecyclerView with
-        ArrayList<String> movieNames = new ArrayList<>();
-        movieNames.add("Horse");
+        /*movieNames.add("Horse");
         movieNames.add("Cow");
         movieNames.add("Camel");
         movieNames.add("Sheep");
-        movieNames.add("Goat");
+        movieNames.add("Goat");*/
 
         recyclerView = findViewById(R.id.rv_movies);
 
@@ -124,8 +126,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void showMovieDataView() {
         // First, make sure the error is invisible
         errorMessageDisplay.setVisibility(View.INVISIBLE);
-        // Then, make sure the weather data is visible
-        // mRecyclerView.setVisibility(View.VISIBLE);
+        // Then, make sure the movie data is visible
+        recyclerView.setVisibility(View.VISIBLE);
     }
 
     /**
@@ -134,12 +136,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     private void showErrorMessage() {
         // First, hide the currently visible data
-        // mRecyclerView.setVisibility(View.INVISIBLE);
+        recyclerView.setVisibility(View.INVISIBLE);
         // Then, show the error
         errorMessageDisplay.setVisibility(View.VISIBLE);
+
+        Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
     }
 
-    public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
+    // public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
+    public class FetchMoviesTask extends AsyncTask<String, Void, List<String>> {
 
         @Override
         protected void onPreExecute() {
@@ -148,7 +153,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
 
         @Override
-        protected String[] doInBackground(String... params) {
+        // protected String[] doInBackground(String... params) {
+        protected List<String> doInBackground(String... params) {
 
             if (params.length == 0) {
                 return null;
@@ -162,13 +168,15 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
 
-                String[] simpleJsonMovieData = OpenMovieJsonUtils
+                /*String[] simpleJsonMovieData = OpenMovieJsonUtils
+                        .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);*/
+                List<String> simpleJsonMovieData = OpenMovieJsonUtils
                         .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
 
                 Log.d(TAG, "json response: " + jsonMovieResponse);
 
-                for (int i = 0; i < simpleJsonMovieData.length; i++) {
-                    Log.d(TAG, "parsed movie title " + i + ": " + simpleJsonMovieData[i]);
+                for (int i = 0; i < simpleJsonMovieData.size(); i++) {
+                    Log.d(TAG, "parsed movie title " + i + ": " + simpleJsonMovieData.get(i));
                 }
 
                 return simpleJsonMovieData;
@@ -180,12 +188,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
 
         @Override
-        protected void onPostExecute(String[] movieData) {
+        protected void onPostExecute(List<String> movieData) {
             loadingIndicator.setVisibility(View.INVISIBLE);
             if (movieData != null) {
                 showMovieDataView();
                 Toast.makeText(getApplicationContext(), "Finished execution", Toast.LENGTH_LONG).show();
-                // mForecastAdapter.setWeatherData(weatherData);
+                movieAdapter.setMovieData(movieData);
             } else {
                 showErrorMessage();
             }

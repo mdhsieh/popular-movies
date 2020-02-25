@@ -24,9 +24,11 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.HttpURLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
- * Utility functions to handle OpenWeatherMap JSON data.
+ * Utility functions to handle MovieDB JSON data.
  */
 public final class OpenMovieJsonUtils {
 
@@ -42,45 +44,8 @@ public final class OpenMovieJsonUtils {
      *
      * @throws JSONException If JSON data cannot be properly parsed
      */
-    public static String[] getSimpleMovieStringsFromJson(Context context, String movieJsonStr)
+    public static List<String> getSimpleMovieStringsFromJson(Context context, String movieJsonStr)
             throws JSONException {
-
-        /*
-        // Weather information. Each day's forecast info is an element of the "list" array
-        final String OWM_LIST = "list";
-
-        // All temperatures are children of the "temp" object
-        final String OWM_TEMPERATURE = "temp";
-
-        // Max temperature for the day
-        final String OWM_MAX = "max";
-        final String OWM_MIN = "min";
-
-        final String OWM_WEATHER = "weather";
-        final String OWM_DESCRIPTION = "main";
-
-        final String OWM_MESSAGE_CODE = "cod";
-
-        // String array to hold each day's weather String
-        String[] parsedWeatherData = null;
-
-        JSONObject forecastJson = new JSONObject(forecastJsonStr);
-
-        // Is there an error?
-        if (forecastJson.has(OWM_MESSAGE_CODE)) {
-            int errorCode = forecastJson.getInt(OWM_MESSAGE_CODE);
-
-            switch (errorCode) {
-                case HttpURLConnection.HTTP_OK:
-                    break;
-                case HttpURLConnection.HTTP_NOT_FOUND:
-                    // Location invalid
-                    return null;
-                default:
-                    // Server probably down
-                    return null;
-            }
-        }*/
 
         JSONObject movieJson = new JSONObject(movieJsonStr);
 
@@ -89,7 +54,8 @@ public final class OpenMovieJsonUtils {
         final int NUM_MOVIE_RESULTS = movieResultsArray.length();
         Log.d(TAG, "Number of movies: " + NUM_MOVIE_RESULTS);
 
-        String[] parsedMovieData = new String[NUM_MOVIE_RESULTS];
+        // String[] parsedMovieData = new String[NUM_MOVIE_RESULTS];
+        ArrayList<String> parsedMovieData = new ArrayList<String>();
 
         JSONObject movieResultObject;
         String title;
@@ -99,7 +65,7 @@ public final class OpenMovieJsonUtils {
             title = movieResultObject.optString("title");
 
             // add title to returned movie String
-            parsedMovieData[i] = title;
+            parsedMovieData.add(title);
         }
 
         return parsedMovieData;
