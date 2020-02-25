@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.model.Movie;
+
 import java.util.List;
 
 import androidx.annotation.NonNull;
@@ -13,18 +15,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private List<String> mData;
+    private List<Movie> mData;
 
     private MovieAdapterOnClickHandler mClickHandler;
 
     public interface MovieAdapterOnClickHandler
     {
-        void onItemClick(String movie, int position);
+        void onItemClick(Movie movie, int position);
     }
 
-    public MovieAdapter(List<String> data, MovieAdapterOnClickHandler clickHandler)
+    public MovieAdapter(MovieAdapterOnClickHandler clickHandler)
     {
-        mData = data;
         mClickHandler = clickHandler;
     }
 
@@ -44,7 +45,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             if (mClickHandler != null)
             {
                 int adapterPosition = getAdapterPosition();
-                String movie = mData.get(adapterPosition);
+                Movie movie = mData.get(adapterPosition);
                 mClickHandler.onItemClick(movie, adapterPosition);
             }
         }
@@ -64,8 +65,8 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     @Override
     public void onBindViewHolder(@NonNull MovieViewHolder holder, int position) {
-        String movie = mData.get(position);
-        holder.movieTextView.setText(movie);
+        Movie movie = mData.get(position);
+        holder.movieTextView.setText(movie.getTitle());
     }
 
     @Override
@@ -76,7 +77,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         return mData.size();
     }
 
-    public void setMovieData(List<String> movieData) {
+    public void setMovieData(List<Movie> movieData) {
         mData = movieData;
         notifyDataSetChanged();
     }

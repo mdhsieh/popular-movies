@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView errorMessageDisplay;
     private ProgressBar loadingIndicator;
 
-    private ArrayList<String> movieNames = new ArrayList<>();
+    private ArrayList<Movie> movies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,21 +66,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             }
         }
 
-        // data to populate the RecyclerView with
-        /*movieNames.add("Horse");
-        movieNames.add("Cow");
-        movieNames.add("Camel");
-        movieNames.add("Sheep");
-        movieNames.add("Goat");*/
+        movies = new ArrayList<>();
 
         recyclerView = findViewById(R.id.rv_movies);
 
         errorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
         loadingIndicator = findViewById(R.id.pb_loading_indicator);
-
-        /* LinearLayoutManager layoutManager
-                = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false); */
 
         // 2 column grid layout
         GridLayoutManager layoutManager =
@@ -90,19 +82,19 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         recyclerView.setHasFixedSize(true);
 
-        movieAdapter = new MovieAdapter(movieNames, this);
+        movieAdapter = new MovieAdapter(this);
         recyclerView.setAdapter(movieAdapter);
 
         loadMovieData();
     }
 
     @Override
-    public void onItemClick(String movie, int position) {
+    public void onItemClick(Movie movie, int position) {
         // Toast.makeText(this, "You clicked " + movie + " on row number " + position, Toast.LENGTH_SHORT).show();
         Context context = this;
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, movie);
+        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, movie.getTitle());
         startActivity(intentToStartDetailActivity);
     }
 
@@ -115,9 +107,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         String option = "popular";
         new FetchMoviesTask().execute(option);
-
-        //String location = SunshinePreferences.getPreferredWeatherLocation(this);
-        //new FetchWeatherTask().execute(location);
     }
 
     /**
@@ -144,7 +133,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         // Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
     }
 
-    // public class FetchMoviesTask extends AsyncTask<String, Void, String[]> {
     public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
 
         @Override
@@ -154,7 +142,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         }
 
         @Override
-        // protected String[] doInBackground(String... params) {
         protected List<Movie> doInBackground(String... params) {
 
             if (params.length == 0) {
@@ -193,8 +180,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
                 Movie movie;
                 String title;
-                ArrayList<String> movieTitles = new ArrayList<>();
-
                 int id;
                 String posterPath;
                 String overview;
@@ -202,10 +187,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 String releaseDate;
 
                 for (int i = 0; i < movieData.size(); i++) {
+
                     movie = movieData.get(i);
                     title = movie.getTitle();
-                    movieTitles.add(title);
-
                     id = movie.getId();
                     posterPath = movie.getPosterImage();
                     overview = movie.getSynopsis();
@@ -213,15 +197,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     releaseDate = movie.getReleaseDate();
 
                     Log.d(TAG, "parsed movie title " + i + ": " + title);
-
                     Log.d(TAG, "id: " + id);
                     Log.d(TAG, "poster image: " + posterPath);
                     Log.d(TAG, "synopsis: " + overview);
                     Log.d(TAG, "user rating: " + userRating);
                     Log.d(TAG, "release date: " + releaseDate);
                 }
-                movieAdapter.setMovieData(movieTitles);
-                // movieAdapter.setMovieData(movieData);
+                movieAdapter.setMovieData(movieData);
             } else {
                 showErrorMessage();
             }
