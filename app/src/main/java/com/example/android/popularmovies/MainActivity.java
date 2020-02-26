@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Context context = this;
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, movie.getTitle());
+        intentToStartDetailActivity.putExtra("Movie", movie);
         startActivity(intentToStartDetailActivity);
     }
 
@@ -178,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 showMovieDataView();
                 // Toast.makeText(getApplicationContext(), "Finished execution", Toast.LENGTH_LONG).show();
 
-                Movie movie;
+                /*Movie movie;
                 String title;
                 int id;
                 String posterPath;
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                     Log.d(TAG, "synopsis: " + overview);
                     Log.d(TAG, "user rating: " + userRating);
                     Log.d(TAG, "release date: " + releaseDate);
-                }
+                }*/
                 movieAdapter.setMovieData(movieData);
             } else {
                 showErrorMessage();

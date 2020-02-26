@@ -6,10 +6,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.model.Movie;
+
 public class DetailActivity extends AppCompatActivity {
 
     private TextView movieDisplay;
-    private String movieName;
+    private Movie movie;
+
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,10 +23,12 @@ public class DetailActivity extends AppCompatActivity {
         movieDisplay = (TextView) findViewById(R.id.tv_display_movie_name);
 
         Intent intentThatStartedThisActivity = getIntent();
-        if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT))
+        if (intentThatStartedThisActivity.hasExtra("Movie"))
         {
-            movieName = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
-            movieDisplay.setText(movieName);
+            movie = intentThatStartedThisActivity.getParcelableExtra("Movie");
+
+            title = movie.getTitle();
+            movieDisplay.setText(title);
         }
     }
 }
