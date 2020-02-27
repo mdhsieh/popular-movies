@@ -23,11 +23,12 @@ public class ApiKey {
     }
 }
 ```
+
 ## Features:
 - Fetches data from the Internet with theMovieDB API
 - Presents user with a grid arrangement of movie posters upon launch
 - Allows the user to change sort order by most popular or highest-rated
-- Allows the user to tap on a movie poster and transition to a details screen with additional information such as
+- Allows the user to tap on a movie poster and transition to a details screen with additional information such as:
   - title
   - movie poster image thumbnail
   - a plot synopsis
