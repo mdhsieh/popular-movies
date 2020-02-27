@@ -13,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.utilities.NetworkUtils;
@@ -29,8 +28,6 @@ import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
-
-    private static final String TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
@@ -89,8 +86,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     @Override
-    public void onItemClick(Movie movie, int position) {
-        // Toast.makeText(this, "You clicked " + movie + " on row number " + position, Toast.LENGTH_SHORT).show();
+    public void onItemClick(Movie movie) {
         Context context = this;
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
@@ -99,7 +95,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     }
 
     /**
-     * This method will get the user's preferred sorting option, and then tell some
+     * This method will get the user's preferred sorting option, and then tell the AsyncTask
      * background method to get the movie data in the background.
      */
     private void loadMovieData() {
@@ -129,8 +125,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         recyclerView.setVisibility(View.INVISIBLE);
         // Then, show the error
         errorMessageDisplay.setVisibility(View.VISIBLE);
-
-        // Toast.makeText(getApplicationContext(), getResources().getString(R.string.error_message), Toast.LENGTH_LONG).show();
     }
 
     public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {
@@ -159,8 +153,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 List<Movie> simpleJsonMovieData = OpenMovieJsonUtils
                         .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
 
-                //Log.d(TAG, "json response: " + jsonMovieResponse);
-
                 return simpleJsonMovieData;
 
             } catch (Exception e) {
@@ -174,7 +166,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             loadingIndicator.setVisibility(View.INVISIBLE);
             if (movieData != null) {
                 showMovieDataView();
-                // Toast.makeText(getApplicationContext(), "Finished execution", Toast.LENGTH_LONG).show();
                 movieAdapter.setMovieData(movieData);
             } else {
                 showErrorMessage();
