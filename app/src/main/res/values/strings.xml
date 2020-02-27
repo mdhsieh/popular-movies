@@ -2,7 +2,7 @@
     <string name="app_name">Popular Movies</string>
 
     <!--Error Message-->
-    <string name="error_message">An error has occurred. Please try again.</string>
+    <string name="error_message">An Internet connection error has occurred. Please try again.</string>
 
     <!-- Detail Activity-->
     <string name="detail_id_label">ID:</string>

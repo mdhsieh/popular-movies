@@ -417,7 +417,7 @@
     <string name="detail_synopsis_label">Synopsis:</string>
     <string name="detail_title_label">Title:</string>
     <string name="detail_user_rating_label">User Rating:</string>
-    <string name="error_message">An error has occurred. Please try again.</string>
+    <string name="error_message">An Internet connection error has occurred. Please try again.</string>
     <string name="movie_picture_content_description">Movie picture</string>
     <string name="search_menu_title">Search</string>
     <string name="status_bar_notification_info_overflow">999+</string>

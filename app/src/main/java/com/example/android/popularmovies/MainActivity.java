@@ -156,12 +156,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
 
-                /*String[] simpleJsonMovieData = OpenMovieJsonUtils
-                        .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);*/
                 List<Movie> simpleJsonMovieData = OpenMovieJsonUtils
                         .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
 
-                Log.d(TAG, "json response: " + jsonMovieResponse);
+                //Log.d(TAG, "json response: " + jsonMovieResponse);
 
                 return simpleJsonMovieData;
 
@@ -177,32 +175,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             if (movieData != null) {
                 showMovieDataView();
                 // Toast.makeText(getApplicationContext(), "Finished execution", Toast.LENGTH_LONG).show();
-
-                /*Movie movie;
-                String title;
-                int id;
-                String posterPath;
-                String overview;
-                int userRating;
-                String releaseDate;
-
-                for (int i = 0; i < movieData.size(); i++) {
-
-                    movie = movieData.get(i);
-                    title = movie.getTitle();
-                    id = movie.getId();
-                    posterPath = movie.getPosterImage();
-                    overview = movie.getSynopsis();
-                    userRating = movie.getUserRating();
-                    releaseDate = movie.getReleaseDate();
-
-                    Log.d(TAG, "parsed movie title " + i + ": " + title);
-                    Log.d(TAG, "id: " + id);
-                    Log.d(TAG, "poster image: " + posterPath);
-                    Log.d(TAG, "synopsis: " + overview);
-                    Log.d(TAG, "user rating: " + userRating);
-                    Log.d(TAG, "release date: " + releaseDate);
-                }*/
                 movieAdapter.setMovieData(movieData);
             } else {
                 showErrorMessage();

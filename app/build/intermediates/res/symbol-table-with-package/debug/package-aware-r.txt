@@ -868,6 +868,7 @@ id textView
 id textView2
 id textView3
 id textView4
+id textView5
 id time
 id title
 id titleDividerNoCustom
@@ -875,6 +876,7 @@ id title_template
 id top
 id topPanel
 id tv_display_id
+id tv_display_release_date
 id tv_display_synopsis
 id tv_display_title
 id tv_display_user_rating
