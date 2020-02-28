@@ -56,7 +56,6 @@ public final class OpenMovieJsonUtils {
         final int NUM_MOVIE_RESULTS = movieResultsArray.length();
         Log.d(TAG, "Number of movies: " + NUM_MOVIE_RESULTS);
 
-        // String[] parsedMovieData = new String[NUM_MOVIE_RESULTS];
         ArrayList<Movie> parsedMovieData = new ArrayList<Movie>();
 
         JSONObject movieResultObject;

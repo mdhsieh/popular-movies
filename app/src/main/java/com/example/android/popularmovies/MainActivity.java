@@ -1,5 +1,6 @@
 package com.example.android.popularmovies;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,9 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,7 +24,6 @@ import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
 import com.example.android.popularmovies.utilities.TLSSocketFactory;
 
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -29,13 +32,16 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
+    private static final String TAG = MainActivity.class.getSimpleName();
+
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
 
     private TextView errorMessageDisplay;
     private ProgressBar loadingIndicator;
 
-    private ArrayList<Movie> movies;
+    // load movies by most popular or highest rated
+    private String option;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +69,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             }
         }
 
-        movies = new ArrayList<>();
-
         recyclerView = findViewById(R.id.rv_movies);
 
         errorMessageDisplay = findViewById(R.id.tv_error_message_display);
@@ -82,7 +86,36 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         movieAdapter = new MovieAdapter(this);
         recyclerView.setAdapter(movieAdapter);
 
+        // default option is most popular
+        option = "popular";
         loadMovieData();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.sort_options_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_sort_by_most_popular:
+                option = "popular";
+                Log.d(TAG, "option selected is " + option);
+                movieAdapter.setMovieData(null);
+                loadMovieData();
+                return true;
+            case R.id.action_sort_by_highest_rated:
+                option = "highest rated";
+                Log.d(TAG, "option selected is " + option);
+                movieAdapter.setMovieData(null);
+                loadMovieData();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -101,7 +134,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void loadMovieData() {
         showMovieDataView();
 
-        String option = "popular";
+        Log.d(TAG, "option in loadMovieData is " + option);
         new FetchMoviesTask().execute(option);
     }
 
@@ -143,6 +176,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             }
 
             String option = params[0];
+            //Log.d(TAG, "option in doInBackground is " + option);
             URL movieRequestUrl = NetworkUtils.buildUrl(option);
 
             try {

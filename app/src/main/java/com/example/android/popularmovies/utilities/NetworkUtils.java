@@ -64,10 +64,12 @@ public final class NetworkUtils {
         String OPTION_PARAM;
         if (optionQuery.equals("popular"))
         {
+            //Log.d(TAG, "option query is " + optionQuery);
             OPTION_PARAM = OPTION_POPULAR_PARAM;
         }
         else
         {
+            //Log.d(TAG, "option query is " + optionQuery);
             OPTION_PARAM = OPTION_RATED_PARAM;
         }
 
