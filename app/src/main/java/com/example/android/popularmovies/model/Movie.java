@@ -18,17 +18,19 @@ public class Movie implements Parcelable {
     private String synopsis;
     private int userRating;
     private String releaseDate;
+    private String backdropImage;
 
     public Movie() {
     }
 
-    public Movie(int id, String title, String posterImage, String synopsis, int userRating, String releaseDate) {
+    public Movie(int id, String title, String posterImage, String synopsis, int userRating, String releaseDate, String backdropImage) {
         this.id = id;
         this.title = title;
         this.posterImage = BASE_URL + SIZE + posterImage;
         this.synopsis = synopsis;
         this.userRating = userRating;
         this.releaseDate = releaseDate;
+        this.backdropImage = BASE_URL + SIZE + posterImage;
     }
 
     public int getId() {
@@ -55,6 +57,10 @@ public class Movie implements Parcelable {
         return releaseDate;
     }
 
+    public String getBackdropImage() {
+        return backdropImage;
+    }
+
     /* in the case you have more than one field to retrieve from a given Parcel,
     you must do this in the same order you put them in (that is, in a FIFO approach)*/
 
@@ -72,6 +78,7 @@ public class Movie implements Parcelable {
         dest.writeString(synopsis);
         dest.writeInt(userRating);
         dest.writeString(releaseDate);
+        dest.writeString(backdropImage);
     }
 
     // this is used to regenerate the object. All Parcelables must have a CREATOR that implements these two methods
@@ -93,5 +100,6 @@ public class Movie implements Parcelable {
         synopsis = in.readString();
         userRating = in.readInt();
         releaseDate = in.readString();
+        backdropImage = in.readString();
     }
 }

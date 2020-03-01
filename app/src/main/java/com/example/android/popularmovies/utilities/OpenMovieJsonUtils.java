@@ -67,6 +67,7 @@ public final class OpenMovieJsonUtils {
         String overview;
         int userRating;
         String releaseDate;
+        String backdropPath;
         for (int i = 0; i < NUM_MOVIE_RESULTS; i++)
         {
             movieResultObject = movieResultsArray.optJSONObject(i);
@@ -76,8 +77,9 @@ public final class OpenMovieJsonUtils {
             overview = movieResultObject.optString("overview");
             userRating = movieResultObject.optInt("vote_average");
             releaseDate = movieResultObject.optString("release_date");
+            backdropPath = movieResultObject.optString("backdrop_path");
 
-            movie = new Movie(id, title, posterPath, overview, userRating, releaseDate);
+            movie = new Movie(id, title, posterPath, overview, userRating, releaseDate, backdropPath);
 
             parsedMovieData.add(movie);
         }

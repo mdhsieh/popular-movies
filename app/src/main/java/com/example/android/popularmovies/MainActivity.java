@@ -212,6 +212,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
 
+                Log.d(TAG, "json movie response is " + jsonMovieResponse);
+
                 List<Movie> simpleJsonMovieData = OpenMovieJsonUtils
                         .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
 
