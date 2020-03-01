@@ -9,6 +9,9 @@ import android.os.Parcelable;
 // implement Parcelable to pass Movie to detail screen using Intents
 public class Movie implements Parcelable {
 
+    private final String BASE_URL = "http://image.tmdb.org/t/p/";
+    private final String SIZE = "w185/";
+
     private int id;
     private String title;
     private String posterImage;
@@ -22,7 +25,7 @@ public class Movie implements Parcelable {
     public Movie(int id, String title, String posterImage, String synopsis, int userRating, String releaseDate) {
         this.id = id;
         this.title = title;
-        this.posterImage = posterImage;
+        this.posterImage = BASE_URL + SIZE + posterImage;
         this.synopsis = synopsis;
         this.userRating = userRating;
         this.releaseDate = releaseDate;

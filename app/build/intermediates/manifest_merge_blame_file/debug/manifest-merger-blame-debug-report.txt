@@ -1,0 +1,85 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.example.android.popularmovies"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="15"
+8-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml
+9        android:targetSdkVersion="29" />
+9-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml
+10
+11    <!-- This permission is necessary in order for Popular Movies to perform network access. -->
+12    <uses-permission android:name="android.permission.INTERNET" />
+12-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:6:5-67
+12-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:6:22-64
+13
+14    <application
+14-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:8:5-35:19
+15        android:allowBackup="true"
+15-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:10:9-35
+16        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+16-->[androidx.core:core:1.1.0] C:\Users\mdhsi\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:18-86
+17        android:debuggable="true"
+18        android:icon="@mipmap/ic_launcher"
+18-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:11:9-43
+19        android:label="@string/app_name"
+19-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:12:9-41
+20        android:networkSecurityConfig="@xml/network_security_config"
+20-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:9:9-69
+21        android:roundIcon="@mipmap/ic_launcher_round"
+21-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:13:9-54
+22        android:supportsRtl="true"
+22-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:14:9-35
+23        android:testOnly="true"
+24        android:theme="@style/AppTheme" >
+24-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:15:9-40
+25        <activity
+25-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:16:9-23:20
+26            android:name="com.example.android.popularmovies.DetailActivity"
+26-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:17:13-43
+27            android:parentActivityName="com.example.android.popularmovies.MainActivity" >
+27-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:18:13-55
+28
+29            <!-- The meta-data tag is required if you support API level 15 and lower -->
+30            <meta-data
+30-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:20:13-22:49
+31                android:name="android.support.PARENT_ACTIVITY"
+31-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:21:17-63
+32                android:value=".MainActivity" />
+32-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:22:17-46
+33        </activity>
+34        <!--
+35        Don't recreate MainActivity when pressing back from details screen, that is,
+36        don't start from onCreate again
+37        -->
+38        <activity
+38-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:26:9-34:20
+39            android:name="com.example.android.popularmovies.MainActivity"
+39-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:27:13-41
+40            android:launchMode="singleTop" >
+40-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:28:13-43
+41            <intent-filter>
+41-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:29:13-33:29
+42                <action android:name="android.intent.action.MAIN" />
+42-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:30:17-69
+42-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:30:25-66
+43
+44                <category android:name="android.intent.category.LAUNCHER" />
+44-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:32:17-77
+44-->C:\Users\mdhsi\AndroidStudioProjects\PopularMovies\app\src\main\AndroidManifest.xml:32:27-74
+45            </intent-filter>
+46        </activity>
+47
+48        <provider
+48-->[com.squareup.picasso:picasso:2.71828] C:\Users\mdhsi\.gradle\caches\transforms-2\files-2.1\8f7c8924b05a4a2c6a53b747737ae398\jetified-picasso-2.71828\AndroidManifest.xml:8:9-11:40
+49            android:name="com.squareup.picasso.PicassoProvider"
+49-->[com.squareup.picasso:picasso:2.71828] C:\Users\mdhsi\.gradle\caches\transforms-2\files-2.1\8f7c8924b05a4a2c6a53b747737ae398\jetified-picasso-2.71828\AndroidManifest.xml:9:13-64
+50            android:authorities="com.example.android.popularmovies.com.squareup.picasso"
+50-->[com.squareup.picasso:picasso:2.71828] C:\Users\mdhsi\.gradle\caches\transforms-2\files-2.1\8f7c8924b05a4a2c6a53b747737ae398\jetified-picasso-2.71828\AndroidManifest.xml:10:13-72
+51            android:exported="false" />
+51-->[com.squareup.picasso:picasso:2.71828] C:\Users\mdhsi\.gradle\caches\transforms-2\files-2.1\8f7c8924b05a4a2c6a53b747737ae398\jetified-picasso-2.71828\AndroidManifest.xml:11:13-37
+52    </application>
+53
+54</manifest>

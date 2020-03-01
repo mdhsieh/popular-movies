@@ -31,7 +31,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
     public class MovieViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener
     {
-        public TextView movieTextView;
+        private TextView movieTextView;
 
         public MovieViewHolder(View itemView)
         {
