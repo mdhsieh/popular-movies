@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.android.popularmovies.model.Movie;
+import com.squareup.picasso.Picasso;
 
 public class DetailActivity extends AppCompatActivity {
 
@@ -23,6 +24,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private Movie movie;
 
+    private String posterURL;
     private int id;
     private String title;
     private String synopsis;
@@ -34,6 +36,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
+        posterImageDisplay = findViewById(R.id.image_iv);
         idDisplay = findViewById(R.id.tv_display_id);
         titleDisplay = findViewById(R.id.tv_display_title);
         synopsisDisplay = findViewById(R.id.tv_display_synopsis);
@@ -49,6 +52,8 @@ public class DetailActivity extends AppCompatActivity {
             if (movie != null) {
 
                 // get the movie's data
+                posterURL = movie.getPosterImage();
+
                 id = movie.getId();
                 title = movie.getTitle();
                 synopsis = movie.getSynopsis();
@@ -56,6 +61,8 @@ public class DetailActivity extends AppCompatActivity {
                 releaseDate = movie.getReleaseDate();
 
                 // set the displays accordingly, casting int to String if necessary
+                Picasso.get().load(posterURL).into(posterImageDisplay);
+
                 idDisplay.setText(String.valueOf(id));
                 titleDisplay.setText(title);
                 synopsisDisplay.setText(synopsis);
