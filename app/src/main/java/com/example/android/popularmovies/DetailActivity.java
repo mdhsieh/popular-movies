@@ -16,7 +16,7 @@ public class DetailActivity extends AppCompatActivity {
     private static final String TAG = DetailActivity.class.getSimpleName();
 
     private ImageView backdropImageDisplay;
-    private TextView idDisplay;
+    //private TextView idDisplay;
     private TextView titleDisplay;
     private TextView synopsisDisplay;
     private TextView userRatingDisplay;
@@ -37,7 +37,7 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         backdropImageDisplay = findViewById(R.id.image_iv);
-        idDisplay = findViewById(R.id.tv_display_id);
+        //idDisplay = findViewById(R.id.tv_display_id);
         titleDisplay = findViewById(R.id.tv_display_title);
         synopsisDisplay = findViewById(R.id.tv_display_synopsis);
         userRatingDisplay = findViewById(R.id.tv_display_user_rating);
@@ -63,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
                 // set the displays accordingly, casting int to String if necessary
                 Picasso.get().load(posterURL).into(backdropImageDisplay);
 
-                idDisplay.setText(String.valueOf(id));
+                //idDisplay.setText(String.valueOf(id));
                 titleDisplay.setText(title);
                 synopsisDisplay.setText(synopsis);
                 // display user rating / 10
