@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity {
             if (movie != null) {
 
                 // get the movie's data
-                posterURL = movie.getBackdropImage();
+                posterURL = movie.getBackdropURL();
 
                 id = movie.getId();
                 title = movie.getTitle();
@@ -66,7 +66,6 @@ public class DetailActivity extends AppCompatActivity {
                 idDisplay.setText(String.valueOf(id));
                 titleDisplay.setText(title);
                 synopsisDisplay.setText(synopsis);
-                //userRatingDisplay.setText(String.valueOf(userRating));
                 // display user rating / 10
                 userRatingDisplay.setText(String.format(getString(R.string.out_of_10), userRating));
                 releaseDateDisplay.setText(releaseDate);

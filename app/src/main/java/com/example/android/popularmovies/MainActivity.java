@@ -51,8 +51,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Log.d(TAG, "Creating MainActivity");
-
         /* Android APIs >= 16 & < 22 have TLS 1.2 disabled by default,
         so we enable TLS on older devices.
 
@@ -96,11 +94,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             // Restore option from saved state
             option = savedInstanceState.getString(STATE_OPTION);
         } else {
-            //Log.d(TAG, "saved instance state is " + savedInstanceState);
             // default option is most popular
             option = "popular";
         }
-        //Log.d(TAG, "option is " + option);
         loadMovieData();
     }
 
@@ -111,7 +107,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
      */
     @Override
     protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
-        //Log.d(TAG, "reached savedInstanceState");
         // Save the current selected option
         savedInstanceState.putString(STATE_OPTION, option);
 
@@ -131,13 +126,11 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         switch (item.getItemId()) {
             case R.id.action_sort_by_most_popular:
                 option = "popular";
-                //Log.d(TAG, "option selected is " + option);
                 movieAdapter.setMovieData(null);
                 loadMovieData();
                 return true;
             case R.id.action_sort_by_highest_rated:
                 option = "highest rated";
-                //Log.d(TAG, "option selected is " + option);
                 movieAdapter.setMovieData(null);
                 loadMovieData();
                 return true;
@@ -162,7 +155,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private void loadMovieData() {
         showMovieDataView();
 
-        //Log.d(TAG, "option in loadMovieData is " + option);
         new FetchMoviesTask().execute(option);
     }
 
@@ -204,7 +196,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             }
 
             String option = params[0];
-            //Log.d(TAG, "option in doInBackground is " + option);
             URL movieRequestUrl = NetworkUtils.buildUrl(option);
 
             try {

@@ -15,25 +15,23 @@ public class Movie implements Parcelable {
 
     private int id;
     private String title;
-    // this is a URL String
-    private String posterImage;
+    private String posterURL;
     private String synopsis;
     private int userRating;
     private String releaseDate;
-    // this is also a URL String
-    private String backdropImage;
+    private String backdropURL;
 
     public Movie() {
     }
 
-    public Movie(int id, String title, String posterImage, String synopsis, int userRating, String releaseDate, String backdropImage) {
+    public Movie(int id, String title, String posterURL, String synopsis, int userRating, String releaseDate, String backdropURL) {
         this.id = id;
         this.title = title;
-        this.posterImage = BASE_URL + POSTER_SIZE + posterImage;
+        this.posterURL = BASE_URL + POSTER_SIZE + posterURL;
         this.synopsis = synopsis;
         this.userRating = userRating;
         this.releaseDate = releaseDate;
-        this.backdropImage = BASE_URL + BACKDROP_SIZE + backdropImage;
+        this.backdropURL = BASE_URL + BACKDROP_SIZE + backdropURL;
     }
 
     public int getId() {
@@ -44,8 +42,8 @@ public class Movie implements Parcelable {
         return title;
     }
 
-    public String getPosterImage() {
-        return posterImage;
+    public String getPosterURL() {
+        return posterURL;
     }
 
     public String getSynopsis() {
@@ -60,8 +58,8 @@ public class Movie implements Parcelable {
         return releaseDate;
     }
 
-    public String getBackdropImage() {
-        return backdropImage;
+    public String getBackdropURL() {
+        return backdropURL;
     }
 
     /* in the case you have more than one field to retrieve from a given Parcel,
@@ -77,11 +75,11 @@ public class Movie implements Parcelable {
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeInt(id);
         dest.writeString(title);
-        dest.writeString(posterImage);
+        dest.writeString(posterURL);
         dest.writeString(synopsis);
         dest.writeInt(userRating);
         dest.writeString(releaseDate);
-        dest.writeString(backdropImage);
+        dest.writeString(backdropURL);
     }
 
     // this is used to regenerate the object. All Parcelables must have a CREATOR that implements these two methods
@@ -99,10 +97,10 @@ public class Movie implements Parcelable {
     private Movie(Parcel in) {
         id = in.readInt();
         title = in.readString();
-        posterImage = in.readString();
+        posterURL = in.readString();
         synopsis = in.readString();
         userRating = in.readInt();
         releaseDate = in.readString();
-        backdropImage = in.readString();
+        backdropURL = in.readString();
     }
 }
