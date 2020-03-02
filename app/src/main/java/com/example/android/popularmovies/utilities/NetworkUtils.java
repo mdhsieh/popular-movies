@@ -15,12 +15,10 @@
  */
 package com.example.android.popularmovies.utilities;
 
-import android.net.Uri;
 import android.util.Log;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Scanner;
@@ -37,9 +35,7 @@ public final class NetworkUtils {
     /*In order to request popular movies you will want to request data from
      the /movie/popular and /movie/top_rated endpoints*/
 
-    // "http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]"
-
-    // private static final String MOVIE_BASE_URL = "http://api.themoviedb.org/3/movie";
+    // example: "http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]"
 
     private static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie";
 
@@ -64,12 +60,10 @@ public final class NetworkUtils {
         String OPTION_PARAM;
         if (optionQuery.equals("popular"))
         {
-            //Log.d(TAG, "option query is " + optionQuery);
             OPTION_PARAM = OPTION_POPULAR_PARAM;
         }
         else
         {
-            //Log.d(TAG, "option query is " + optionQuery);
             OPTION_PARAM = OPTION_RATED_PARAM;
         }
 
@@ -94,8 +88,6 @@ public final class NetworkUtils {
      * @throws IOException Related to network and stream reading
      */
     public static String getResponseFromHttpUrl(URL url) throws IOException {
-
-        // HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
         HttpsURLConnection urlConnection = (HttpsURLConnection) url.openConnection();
         try {

@@ -32,8 +32,6 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
-    private static final String TAG = MainActivity.class.getSimpleName();
-
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
 
@@ -202,8 +200,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
-
-                //Log.d(TAG, "json movie response is " + jsonMovieResponse);
 
                 List<Movie> simpleJsonMovieData = MovieJsonUtils
                         .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
