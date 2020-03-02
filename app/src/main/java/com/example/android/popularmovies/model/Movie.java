@@ -11,7 +11,7 @@ public class Movie implements Parcelable {
 
     private final String BASE_URL = "http://image.tmdb.org/t/p/";
     private final String POSTER_SIZE = "w185";
-    private final String BACKDROP_SIZE = "w185";
+    private final String BACKDROP_SIZE = "w342";
 
     private int id;
     private String title;
