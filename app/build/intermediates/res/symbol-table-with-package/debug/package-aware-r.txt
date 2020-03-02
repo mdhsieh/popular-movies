@@ -795,6 +795,7 @@ id info
 id invisible
 id italic
 id item_touch_helper_previous_elevation
+id iv_movie_image
 id left
 id line1
 id line3
@@ -883,7 +884,6 @@ id tv_display_synopsis
 id tv_display_title
 id tv_display_user_rating
 id tv_error_message_display
-id tv_movie_name
 id unchecked
 id uniform
 id up
@@ -983,6 +983,7 @@ string detail_title_label
 string detail_user_rating_label
 string error_message
 string movie_picture_content_description
+string out_of_10
 string search_menu_title
 string sort_by_highest_rated
 string sort_by_most_popular

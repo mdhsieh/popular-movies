@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.utilities.NetworkUtils;
-import com.example.android.popularmovies.utilities.OpenMovieJsonUtils;
+import com.example.android.popularmovies.utilities.MovieJsonUtils;
 import com.example.android.popularmovies.utilities.TLSSocketFactory;
 
 import java.net.URL;
@@ -212,9 +212,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 String jsonMovieResponse = NetworkUtils
                         .getResponseFromHttpUrl(movieRequestUrl);
 
-                Log.d(TAG, "json movie response is " + jsonMovieResponse);
+                //Log.d(TAG, "json movie response is " + jsonMovieResponse);
 
-                List<Movie> simpleJsonMovieData = OpenMovieJsonUtils
+                List<Movie> simpleJsonMovieData = MovieJsonUtils
                         .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
 
                 return simpleJsonMovieData;

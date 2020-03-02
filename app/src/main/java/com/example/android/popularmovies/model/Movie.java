@@ -10,14 +10,17 @@ import android.os.Parcelable;
 public class Movie implements Parcelable {
 
     private final String BASE_URL = "http://image.tmdb.org/t/p/";
-    private final String SIZE = "w185/";
+    private final String POSTER_SIZE = "w185";
+    private final String BACKDROP_SIZE = "w185";
 
     private int id;
     private String title;
+    // this is a URL String
     private String posterImage;
     private String synopsis;
     private int userRating;
     private String releaseDate;
+    // this is also a URL String
     private String backdropImage;
 
     public Movie() {
@@ -26,11 +29,11 @@ public class Movie implements Parcelable {
     public Movie(int id, String title, String posterImage, String synopsis, int userRating, String releaseDate, String backdropImage) {
         this.id = id;
         this.title = title;
-        this.posterImage = BASE_URL + SIZE + posterImage;
+        this.posterImage = BASE_URL + POSTER_SIZE + posterImage;
         this.synopsis = synopsis;
         this.userRating = userRating;
         this.releaseDate = releaseDate;
-        this.backdropImage = BASE_URL + SIZE + posterImage;
+        this.backdropImage = BASE_URL + BACKDROP_SIZE + backdropImage;
     }
 
     public int getId() {

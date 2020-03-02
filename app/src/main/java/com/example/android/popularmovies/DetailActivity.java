@@ -15,7 +15,7 @@ public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
 
-    private ImageView posterImageDisplay;
+    private ImageView backdropImageDisplay;
     private TextView idDisplay;
     private TextView titleDisplay;
     private TextView synopsisDisplay;
@@ -36,7 +36,7 @@ public class DetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
 
-        posterImageDisplay = findViewById(R.id.image_iv);
+        backdropImageDisplay = findViewById(R.id.image_iv);
         idDisplay = findViewById(R.id.tv_display_id);
         titleDisplay = findViewById(R.id.tv_display_title);
         synopsisDisplay = findViewById(R.id.tv_display_synopsis);
@@ -52,7 +52,7 @@ public class DetailActivity extends AppCompatActivity {
             if (movie != null) {
 
                 // get the movie's data
-                posterURL = movie.getPosterImage();
+                posterURL = movie.getBackdropImage();
 
                 id = movie.getId();
                 title = movie.getTitle();
@@ -61,12 +61,14 @@ public class DetailActivity extends AppCompatActivity {
                 releaseDate = movie.getReleaseDate();
 
                 // set the displays accordingly, casting int to String if necessary
-                Picasso.get().load(posterURL).into(posterImageDisplay);
+                Picasso.get().load(posterURL).into(backdropImageDisplay);
 
                 idDisplay.setText(String.valueOf(id));
                 titleDisplay.setText(title);
                 synopsisDisplay.setText(synopsis);
-                userRatingDisplay.setText(String.valueOf(userRating));
+                //userRatingDisplay.setText(String.valueOf(userRating));
+                // display user rating / 10
+                userRatingDisplay.setText(String.format(getString(R.string.out_of_10), userRating));
                 releaseDateDisplay.setText(releaseDate);
             }
             else
