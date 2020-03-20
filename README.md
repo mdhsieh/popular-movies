@@ -34,3 +34,7 @@ public class ApiKey {
   - a plot synopsis
   - user rating
   - release date
+
+## Screenshots
+![movie poster grid view](popular_movies_1.PNG)
+![movie detail screen](popular_movies_2.PNG)
