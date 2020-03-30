@@ -2,6 +2,7 @@ package com.example.android.popularmovies;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,6 +19,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.database.MovieViewModel;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.example.android.popularmovies.utilities.MovieJsonUtils;
@@ -32,6 +34,8 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
+    // private static final String TAG = MainActivity.class.getSimpleName();
+
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
 
@@ -43,6 +47,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     // load movies by most popular or highest rated
     private String option;
+
+    private MovieViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             option = "popular";
         }
         loadMovieData();
+
+        viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
     }
 
     /** Save the sort option if for example the user changes orientation
