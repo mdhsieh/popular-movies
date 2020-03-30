@@ -52,7 +52,7 @@ public final class MovieJsonUtils {
         JSONArray movieResultsArray = movieJson.optJSONArray("results");
 
         final int NUM_MOVIE_RESULTS = movieResultsArray.length();
-        Log.d(TAG, "Number of movies: " + NUM_MOVIE_RESULTS);
+        //Log.d(TAG, "Number of movies: " + NUM_MOVIE_RESULTS);
 
         ArrayList<Movie> parsedMovieData = new ArrayList<Movie>();
 
