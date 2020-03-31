@@ -1,41 +1,29 @@
 package com.example.android.popularmovies.database;
 
 import android.app.Application;
-import android.os.AsyncTask;
+
+import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
+import androidx.lifecycle.LiveData;
 
 public class MovieViewModel extends AndroidViewModel {
 
-    private MovieDao movieDao;
-    private MovieRoomDatabase database;
+    private MovieRepository repository;
+    private LiveData<List<FavoriteMovie>> allMovies;
+
 
     public MovieViewModel(@NonNull Application application) {
         super(application);
 
-        database = MovieRoomDatabase.getInstance(application);
-        movieDao = database.movieDao();
+        repository = new MovieRepository(application);
+        allMovies = repository.getAllMovies();
     }
 
-    public void insertMovie(FavoriteMovie movie)
-    {
-        new InsertAsyncTask(movieDao).execute(movie);
-    }
+    LiveData<List<FavoriteMovie>> getAllMovies() { return allMovies; }
 
-    private static class InsertAsyncTask extends AsyncTask<FavoriteMovie, Void, Void>
-    {
-        MovieDao movieDao;
-
-        public InsertAsyncTask(MovieDao movieDao)
-        {
-            this.movieDao = movieDao;
-        }
-
-        @Override
-        protected Void doInBackground(FavoriteMovie... favoriteMovies) {
-            movieDao.insertMovie(favoriteMovies[0]);
-            return null;
-        }
+    public void insert(FavoriteMovie movie) {
+        repository.insert(movie);
     }
 }

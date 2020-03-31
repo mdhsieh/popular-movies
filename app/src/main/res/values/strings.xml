@@ -22,4 +22,5 @@
 
     <!-- Content descriptions-->
     <string name="movie_picture_content_description">Movie picture</string>
+    <string name="star_button_content_description">Star button</string>
 </resources>

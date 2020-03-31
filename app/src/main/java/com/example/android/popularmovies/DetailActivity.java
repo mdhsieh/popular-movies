@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,6 +15,11 @@ import com.squareup.picasso.Picasso;
 public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
+
+    // star button that user can press to mark movie as a favorite
+    private ImageView favoritesImageView;
+    // boolean to mark as favorite or not favorite
+    private boolean isMarkedAsFavorite = false;
 
     private ImageView backdropImageDisplay;
     //private TextView idDisplay;
@@ -35,6 +41,27 @@ public class DetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        favoritesImageView = findViewById(R.id.iv_favorite_button);
+        favoritesImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!isMarkedAsFavorite)
+                {
+                    Log.v(TAG, "Favorite");
+                    // mark as favorite and insert into favorites list
+                    favoritesImageView.setImageResource(android.R.drawable.btn_star_big_on);
+                    isMarkedAsFavorite = true;
+                }
+                else
+                {
+                    Log.v(TAG, "Not favorite");
+                    // un-mark as favorite and delete from favorites list
+                    favoritesImageView.setImageResource(android.R.drawable.btn_star_big_off);
+                    isMarkedAsFavorite = false;
+                }
+            }
+        });
 
         backdropImageDisplay = findViewById(R.id.image_iv);
         //idDisplay = findViewById(R.id.tv_display_id);

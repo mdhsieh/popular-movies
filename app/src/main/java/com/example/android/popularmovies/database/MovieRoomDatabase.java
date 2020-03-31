@@ -3,6 +3,9 @@ package com.example.android.popularmovies.database;
 import android.content.Context;
 import android.util.Log;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
@@ -17,6 +20,10 @@ public abstract class MovieRoomDatabase extends RoomDatabase {
 
     private static volatile MovieRoomDatabase movieRoomInstance;
 
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
+
     static MovieRoomDatabase getInstance(Context context)
     {
         if (movieRoomInstance == null)
@@ -28,6 +35,7 @@ public abstract class MovieRoomDatabase extends RoomDatabase {
                             context.getApplicationContext(),
                             MovieRoomDatabase.class,
                             DATABASE_NAME)
+                            .fallbackToDestructiveMigration()
                             .build();
                 }
             }
