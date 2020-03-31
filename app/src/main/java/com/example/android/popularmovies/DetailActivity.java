@@ -43,6 +43,10 @@ public class DetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail);
 
         favoritesImageView = findViewById(R.id.iv_favorite_button);
+
+        // original android drawables:
+        // android.R.drawable.btn_star_big_on
+        // android.R.drawable.btn_star_big_off
         favoritesImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -50,14 +54,14 @@ public class DetailActivity extends AppCompatActivity {
                 {
                     Log.v(TAG, "Favorite");
                     // mark as favorite and insert into favorites list
-                    favoritesImageView.setImageResource(android.R.drawable.btn_star_big_on);
+                    favoritesImageView.setImageResource(R.drawable.ic_star_yellow_24dp);
                     isMarkedAsFavorite = true;
                 }
                 else
                 {
                     Log.v(TAG, "Not favorite");
                     // un-mark as favorite and delete from favorites list
-                    favoritesImageView.setImageResource(android.R.drawable.btn_star_big_off);
+                    favoritesImageView.setImageResource(R.drawable.ic_star_border_yellow_24dp);
                     isMarkedAsFavorite = false;
                 }
             }
