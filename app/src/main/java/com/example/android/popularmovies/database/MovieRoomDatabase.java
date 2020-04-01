@@ -6,9 +6,11 @@ import android.util.Log;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 @Database(entities = FavoriteMovie.class, version = 1, exportSchema = false)
 public abstract class MovieRoomDatabase extends RoomDatabase {
@@ -36,6 +38,8 @@ public abstract class MovieRoomDatabase extends RoomDatabase {
                             MovieRoomDatabase.class,
                             DATABASE_NAME)
                             .fallbackToDestructiveMigration()
+                            // delete all data on start tester method
+                            .addCallback(sRoomDatabaseCallback)
                             .build();
                 }
             }
@@ -43,4 +47,26 @@ public abstract class MovieRoomDatabase extends RoomDatabase {
         Log.d(TAG, "Getting the database instance");
         return movieRoomInstance;
     }
+
+    // tester method that deletes all data when app starts
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback() {
+        @Override
+        public void onOpen(@NonNull SupportSQLiteDatabase db) {
+            super.onOpen(db);
+
+            // If you want to keep data through app restarts,
+            // comment out the following block
+            databaseWriteExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    // Populate the database in the background.
+                    // If you want to start with more words, just add them.
+                    MovieDao dao = movieRoomInstance.movieDao();
+                    dao.deleteAll();
+
+                    Log.d(TAG, "deleted all data on startup");
+                }
+            });
+        }
+    };
 }

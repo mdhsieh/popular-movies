@@ -1,7 +1,10 @@
 package com.example.android.popularmovies;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,6 +22,7 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.popularmovies.database.FavoriteMovie;
 import com.example.android.popularmovies.database.MovieViewModel;
 import com.example.android.popularmovies.model.Movie;
 import com.example.android.popularmovies.utilities.NetworkUtils;
@@ -34,7 +38,7 @@ import javax.net.ssl.SSLSocketFactory;
 
 public class MainActivity extends AppCompatActivity implements MovieAdapter.MovieAdapterOnClickHandler {
 
-    // private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     private RecyclerView recyclerView;
     private MovieAdapter movieAdapter;
@@ -48,7 +52,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     // load movies by most popular or highest rated
     private String option;
 
-    private MovieViewModel viewModel;
+    private static MovieViewModel viewModel;
+
+    private LiveData<FavoriteMovie> movieById;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +110,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         loadMovieData();
 
         viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+        viewModel.getAllMovies().observe(this, new Observer<List<FavoriteMovie>>() {
+            @Override
+            public void onChanged(@Nullable final List<FavoriteMovie> favoriteMovies) {
+                Log.d(TAG, "favorites list has changed");
+                if (favoriteMovies != null) {
+                    for (int i = 0; i < favoriteMovies.size(); i++) {
+                        Log.d(TAG, "movie " + favoriteMovies.get(i).getId()
+                                + " is " + favoriteMovies.get(i).getTitle());
+                    }
+                }
+            }
+        });
     }
 
     /** Save the sort option if for example the user changes orientation

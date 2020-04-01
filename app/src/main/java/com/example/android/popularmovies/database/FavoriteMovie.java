@@ -14,7 +14,7 @@ public class FavoriteMovie implements Parcelable {
     private final String POSTER_SIZE = "w185";
     private final String BACKDROP_SIZE = "w342";
 
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     private int id;
 
     private String title;

@@ -12,14 +12,17 @@ import androidx.room.Update;
 
 @Dao
 public interface MovieDao {
-    @Insert
-    void insertMovie(FavoriteMovie movie);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    void insert(FavoriteMovie movie);
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    void updateMovie(FavoriteMovie movie);
+    @Update
+    void update(FavoriteMovie movie);
 
     @Delete
-    void deleteMovie(FavoriteMovie movie);
+    void delete(FavoriteMovie movie);
+
+    @Query("DELETE FROM movie_table")
+    void deleteAll();
 
     @Query("SELECT * FROM movie_table")
     LiveData<List<FavoriteMovie>> loadAllMovies();
