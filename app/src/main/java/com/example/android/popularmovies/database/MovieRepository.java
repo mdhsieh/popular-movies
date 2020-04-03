@@ -55,9 +55,9 @@ class MovieRepository {
             @Override
             public void run() {
                 movie = movieDao.loadMovieById(id);
-                if (movie != null && movie.getValue() != null) {
-                    Log.d(TAG, "movie in repository is " + movie.getValue().getTitle() + ", id is " + id);
-                }
+//                if (movie != null && movie.getValue() != null) {
+//                    Log.d(TAG, "movie in repository is " + movie.getValue().getTitle() + ", id is " + id);
+//                }
             }
         });
         return movie;

@@ -15,15 +15,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private List<Movie> mData;
+    private static final String TAG = MovieAdapter.class.getSimpleName();
 
-    // list of favorite movies
-    //private LiveData<List<FavoriteMovie>> favoriteMovies;
+    private List<Movie> mData;
 
     private MovieAdapterOnClickHandler mClickHandler;
 
@@ -90,27 +88,49 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         notifyDataSetChanged();
     }
 
+    /** Set the adapter data to a list of Movies given
+     * the user's favorite movies.
+     *
+     * @param favoriteMovies the list of favorite movies observed
+     * by LiveData
+     */
     public void setFavoriteMovies(List<FavoriteMovie> favoriteMovies) {
-        // create a list of Movies matching the list of FavoriteMovies
+
         FavoriteMovie favoriteMovie;
 
+        // Create a list of Movies matching the list of FavoriteMovies
         List<Movie> movieData = new ArrayList<Movie>();
         Movie movie;
         if (favoriteMovies != null) {
             for (int i = 0; i < favoriteMovies.size(); i++) {
                 favoriteMovie = favoriteMovies.get(i);
+                /* We only want the last part of the poster and backdrop URL when
+                constructing a Movie object. We will already append
+                the base and size URL in the Movie constructor, so we get
+                a partial URL from the FavoriteMovie object instead.
+
+                Using getPartialPosterURL and getPartialBackdropURL.
+                 */
                 movie = new Movie(
                         favoriteMovie.getId(),
                         favoriteMovie.getTitle(),
-                        favoriteMovie.getPosterURL(),
+                        favoriteMovie.getPartialPosterURL(),
                         favoriteMovie.getSynopsis(),
                         favoriteMovie.getUserRating(),
                         favoriteMovie.getReleaseDate(),
-                        favoriteMovie.getBackdropURL());
+                        favoriteMovie.getPartialBackdropURL());
                 movieData.add(movie);
+                //Log.d(TAG, "Added movie " + movie.getTitle());
             }
         }
+
         mData = movieData;
         notifyDataSetChanged();
+
+        for (int i = 0; i < mData.size(); i++) {
+            Log.d(TAG, "movie in data is " + mData.get(i).getTitle()
+            + " with poster url " + mData.get(i).getPosterURL());
+        }
+        //Log.d(TAG, "Total number of movies in favorites collection is " + mData.size());
     }
 }

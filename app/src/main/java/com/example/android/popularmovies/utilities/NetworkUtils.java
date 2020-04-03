@@ -37,6 +37,8 @@ public final class NetworkUtils {
 
     // example: "http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]"
 
+    private static final String STRING_POPULAR = "popular";
+
     private static final String MOVIE_BASE_URL = "https://api.themoviedb.org/3/movie";
 
     private static final String OPTION_POPULAR_PARAM = "/popular";
@@ -58,7 +60,7 @@ public final class NetworkUtils {
         URL url = null;
 
         String OPTION_PARAM;
-        if (optionQuery.equals("popular"))
+        if (optionQuery.equals(STRING_POPULAR))
         {
             OPTION_PARAM = OPTION_POPULAR_PARAM;
         }

@@ -8,7 +8,7 @@ import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "movie_table")
-public class FavoriteMovie implements Parcelable {
+public class FavoriteMovie { //implements Parcelable {
 
     private final String BASE_URL = "http://image.tmdb.org/t/p/";
     private final String POSTER_SIZE = "w185";
@@ -31,11 +31,11 @@ public class FavoriteMovie implements Parcelable {
     public FavoriteMovie(int id, String title, String posterURL, String synopsis, int userRating, String releaseDate, String backdropURL) {
         this.id = id;
         this.title = title;
-        this.posterURL = BASE_URL + POSTER_SIZE + posterURL;
+        this.posterURL = posterURL; // BASE_URL + POSTER_SIZE + posterURL;
         this.synopsis = synopsis;
         this.userRating = userRating;
         this.releaseDate = releaseDate;
-        this.backdropURL = BASE_URL + BACKDROP_SIZE + backdropURL;
+        this.backdropURL = backdropURL;  // BASE_URL + BACKDROP_SIZE + backdropURL;
     }
 
     public int getId() {
@@ -67,6 +67,25 @@ public class FavoriteMovie implements Parcelable {
     }
 
 
+    // we only want the last part of the poster URL when constructing a new Movie object
+    // from a FavoriteMovie object
+    public String getPartialPosterURL()
+    {
+        String partialPosterURL = posterURL;
+        partialPosterURL = partialPosterURL.replace(BASE_URL, "");
+        partialPosterURL = partialPosterURL.replace(POSTER_SIZE, "");
+        return partialPosterURL;
+    }
+
+    // we only want the last part of the backdrop URL when constructing a new Movie object
+    // from a FavoriteMovie object
+    public String getPartialBackdropURL() {
+        String partialBackdropURL = backdropURL;
+        partialBackdropURL = partialBackdropURL.replace(BASE_URL, "");
+        partialBackdropURL = partialBackdropURL.replace(BACKDROP_SIZE, "");
+        return partialBackdropURL;
+    }
+
     // required for private variables in Room entity
     public String getBASE_URL() { return BASE_URL; }
     public String getBACKDROP_SIZE() {
@@ -80,6 +99,7 @@ public class FavoriteMovie implements Parcelable {
     /* in the case you have more than one field to retrieve from a given Parcel,
     you must do this in the same order you put them in (that is, in a FIFO approach)*/
 
+    /*
     @Override
     public int describeContents() {
         return 0;
@@ -118,5 +138,6 @@ public class FavoriteMovie implements Parcelable {
         releaseDate = in.readString();
         backdropURL = in.readString();
     }
+    */
 }
 

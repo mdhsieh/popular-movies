@@ -43,9 +43,9 @@ public class MovieViewModel extends AndroidViewModel {
 
     public LiveData<FavoriteMovie> getMovieById(int id) {
         movie = repository.getMovieById(id);
-        if (movie != null && movie.getValue() != null) {
-            Log.d(TAG, "movie in ViewModel is " + movie.getValue().getTitle() + ", id is " + id);
-        }
+//        if (movie != null && movie.getValue() != null) {
+//            Log.d(TAG, "movie in ViewModel is " + movie.getValue().getTitle() + ", id is " + id);
+//        }
         return movie;
     }
 

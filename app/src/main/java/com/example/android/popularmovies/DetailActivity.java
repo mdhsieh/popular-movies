@@ -114,7 +114,7 @@ public class DetailActivity extends AppCompatActivity {
                 viewModel.getAllMovies().observe(this, new Observer<List<FavoriteMovie>>() {
                     @Override
                     public void onChanged(@Nullable final List<FavoriteMovie> favoriteMovies) {
-                        Log.d(TAG, "favorites database has changed in detail activity");
+                        //Log.d(TAG, "favorites database has changed in detail activity");
                         if (favoriteMovies != null) {
                             for (int i = 0; i < favoriteMovies.size(); i++) {
                                 Log.d(TAG, "movie " + favoriteMovies.get(i).getId()
@@ -136,8 +136,10 @@ public class DetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
+                        // create a FavoriteMovie matching the Movie object
                         FavoriteMovie favoriteMovie = new FavoriteMovie(id,
                         title, movie.getPosterURL(), synopsis, userRating, releaseDate, backdropURL);
+                        Log.d(TAG, "possible favorite movie's poster url is " + favoriteMovie.getPosterURL());
 
                         if (!isMarkedAsFavorite)
                         {

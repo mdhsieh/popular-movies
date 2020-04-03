@@ -3,7 +3,6 @@ package com.example.android.popularmovies;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -49,15 +48,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     // key when storing or retrieving the selected option
     private static final String STATE_OPTION = "option";
 
-    // load movies by most popular or highest rated
+    // load movies by most popular, highest rated, or favorites
     private String option;
+
+    // strings that option can be set to
+    private static final String STRING_POPULAR = "popular";
+    private static final String STRING_HIGHEST_RATED = "highest rated";
+    private static final String STRING_FAVORITES = "favorites";
 
     // Movie key when using Intent
     private static final String EXTRA_MOVIE = "Movie";
 
     private MovieViewModel viewModel;
 
-    //private LiveData<FavoriteMovie> movieLoadedById;
+    // list of all favorite movies in Room database
+    List<FavoriteMovie> allFavoriteMovies;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,35 +113,41 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             option = savedInstanceState.getString(STATE_OPTION);
         } else {
             // default option is most popular
-            option = "popular";
+            option = STRING_POPULAR;
         }
-        loadMovieData();
+
 
         viewModel = new ViewModelProvider(this).get(MovieViewModel.class);
+
         viewModel.getAllMovies().observe(this, new Observer<List<FavoriteMovie>>() {
             @Override
             public void onChanged(@Nullable final List<FavoriteMovie> favoriteMovies) {
                 Log.d(TAG, "favorites list has changed");
                 if (favoriteMovies != null) {
-                    for (int i = 0; i < favoriteMovies.size(); i++) {
+                    /*for (int i = 0; i < favoriteMovies.size(); i++) {
                         Log.d(TAG, "movie " + favoriteMovies.get(i).getId()
                                 + " is " + favoriteMovies.get(i).getTitle());
+                    }*/
+                    allFavoriteMovies = favoriteMovies;
+                    for (int i = 0; i < allFavoriteMovies.size(); i++) {
+                        Log.d(TAG, "movie " + allFavoriteMovies.get(i).getId()
+                                + " is " + allFavoriteMovies.get(i).getTitle());
                     }
                 }
             }
         });
 
-        /*final int AD_ASTRA_ID = 419704;
-        movieLoadedById = viewModel.getMovieById(AD_ASTRA_ID);
-        if (movieLoadedById != null)
+        if (option != null && !option.equals(STRING_FAVORITES)) {
+            loadMovieData();
+        }
+        else
         {
-            movieLoadedById.observe(this, new Observer<FavoriteMovie>() {
-                @Override
-                public void onChanged(@Nullable final FavoriteMovie favoriteMovie) {
-                    Log.d(TAG, "movie with id " + AD_ASTRA_ID + " is " + favoriteMovie);
-                }
-            });
-        }*/
+            Log.d(TAG, "loading favorites collection on create");
+            loadFavoriteMovies();
+        }
+
+        // ViewModel was here before
+
     }
 
     /** Save the sort option if for example the user changes orientation
@@ -164,18 +175,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_sort_by_most_popular:
-                option = "popular";
+                option = STRING_POPULAR;
                 movieAdapter.setMovieData(null);
                 loadMovieData();
                 return true;
             case R.id.action_sort_by_highest_rated:
-                option = "highest rated";
+                option = STRING_HIGHEST_RATED;
                 movieAdapter.setMovieData(null);
                 loadMovieData();
                 return true;
             case R.id.action_display_favorites:
-                movieAdapter.setMovieData(null);
+                option = STRING_FAVORITES;
+                movieAdapter.setFavoriteMovies(null);
                 // load favorites collection
+                //Log.d(TAG, "at time of favorites menu click collections size is " + allFavoriteMovies.size());
+                loadFavoriteMovies();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -199,6 +213,21 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         showMovieDataView();
 
         new FetchMoviesTask().execute(option);
+    }
+
+    private void loadFavoriteMovies()
+    {
+        showMovieDataView();
+
+        //new FetchFavoriteMoviesTask().execute(allFavoriteMovies);
+
+        if (allFavoriteMovies != null) {
+            movieAdapter.setFavoriteMovies(allFavoriteMovies);
+        }
+        else
+        {
+            showErrorMessage();
+        }
     }
 
     /**
@@ -268,5 +297,33 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             }
         }
     }
+
+    // background task to get favorite movies collection from database
+    /*public class FetchFavoriteMoviesTask extends AsyncTask<List<FavoriteMovie>, Void, List<Movie>> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            loadingIndicator.setVisibility(View.VISIBLE);
+        }
+
+        @Override
+        protected List<Movie> doInBackground(List<FavoriteMovie>... lists) {
+            Log.d(TAG, "setting adapter data to favorite movies");
+            return movieAdapter.setFavoriteMovies(lists[0]);
+        }
+
+        @Override
+        protected void onPostExecute(List<Movie> movies) {
+            super.onPostExecute(movies);
+            loadingIndicator.setVisibility(View.INVISIBLE);
+            if (movies != null) {
+                showMovieDataView();
+                Log.d(TAG ,"finished and size is " + movies.size());
+            } else {
+                showErrorMessage();
+            }
+        }
+    }*/
 
 }

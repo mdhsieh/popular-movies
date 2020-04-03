@@ -16,7 +16,7 @@
 package com.example.android.popularmovies.utilities;
 
 import android.content.Context;
-import android.util.Log;
+//import android.util.Log;
 
 import com.example.android.popularmovies.model.Movie;
 
@@ -35,12 +35,12 @@ public final class MovieJsonUtils {
     private static final String TAG = MovieJsonUtils.class.getSimpleName();
 
     /**
-     * This method parses JSON from a web response and returns an array of Movies
+     * This method parses JSON from a web response and returns an ArrayList of Movies
      * describing the movie from the list of movie results.
      *
      * @param movieJsonStr JSON response from server
      *
-     * @return Array of Movies describing movie data
+     * @return ArrayList of Movies describing movie data
      *
      * @throws JSONException If JSON data cannot be properly parsed
      */
