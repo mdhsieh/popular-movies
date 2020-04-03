@@ -7,4 +7,7 @@
     <item android:id="@+id/action_sort_by_highest_rated"
         android:title="@string/sort_by_highest_rated"
         app:showAsAction="never"/>
+    <item android:id="@+id/action_display_favorites"
+        android:title="@string/display_favorites"
+        app:showAsAction="never"/>
 </menu>

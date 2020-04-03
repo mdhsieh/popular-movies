@@ -18,6 +18,9 @@ public interface MovieDao {
     @Update
     void update(FavoriteMovie movie);
 
+    //@Query("UPDATE movie_table SET favorite = :favorite WHERE id = :id")
+    //int updateMovie(int id, boolean favorite);
+
     @Delete
     void delete(FavoriteMovie movie);
 

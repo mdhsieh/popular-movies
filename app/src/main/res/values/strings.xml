@@ -7,6 +7,7 @@
     <!--Menu Item names-->
     <string name="sort_by_most_popular">Sort by most popular</string>
     <string name="sort_by_highest_rated">Sort by highest rated</string>
+    <string name="display_favorites">Favorites</string>
 
     <!-- Detail Activity-->
     <string name="detail_id_label">ID:</string>

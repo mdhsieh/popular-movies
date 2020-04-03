@@ -1,22 +1,29 @@
 package com.example.android.popularmovies;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.android.popularmovies.database.FavoriteMovie;
 import com.example.android.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
     private List<Movie> mData;
+
+    // list of favorite movies
+    //private LiveData<List<FavoriteMovie>> favoriteMovies;
 
     private MovieAdapterOnClickHandler mClickHandler;
 
@@ -79,6 +86,30 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
     }
 
     public void setMovieData(List<Movie> movieData) {
+        mData = movieData;
+        notifyDataSetChanged();
+    }
+
+    public void setFavoriteMovies(List<FavoriteMovie> favoriteMovies) {
+        // create a list of Movies matching the list of FavoriteMovies
+        FavoriteMovie favoriteMovie;
+
+        List<Movie> movieData = new ArrayList<Movie>();
+        Movie movie;
+        if (favoriteMovies != null) {
+            for (int i = 0; i < favoriteMovies.size(); i++) {
+                favoriteMovie = favoriteMovies.get(i);
+                movie = new Movie(
+                        favoriteMovie.getId(),
+                        favoriteMovie.getTitle(),
+                        favoriteMovie.getPosterURL(),
+                        favoriteMovie.getSynopsis(),
+                        favoriteMovie.getUserRating(),
+                        favoriteMovie.getReleaseDate(),
+                        favoriteMovie.getBackdropURL());
+                movieData.add(movie);
+            }
+        }
         mData = movieData;
         notifyDataSetChanged();
     }

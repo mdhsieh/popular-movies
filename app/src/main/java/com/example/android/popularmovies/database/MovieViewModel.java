@@ -8,6 +8,7 @@ import java.util.List;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 public class MovieViewModel extends AndroidViewModel {
 
@@ -17,6 +18,8 @@ public class MovieViewModel extends AndroidViewModel {
     private LiveData<List<FavoriteMovie>> allMovies;
 
     private LiveData<FavoriteMovie> movie;
+
+    //private final MutableLiveData<FavoriteMovie> selected = new MutableLiveData<FavoriteMovie>();
 
 
     public MovieViewModel(@NonNull Application application) {
@@ -40,6 +43,17 @@ public class MovieViewModel extends AndroidViewModel {
 
     public LiveData<FavoriteMovie> getMovieById(int id) {
         movie = repository.getMovieById(id);
+        if (movie != null && movie.getValue() != null) {
+            Log.d(TAG, "movie in ViewModel is " + movie.getValue().getTitle() + ", id is " + id);
+        }
         return movie;
     }
+
+    /*public void select(FavoriteMovie item) {
+        selected.setValue(item);
+    }
+
+    public LiveData<FavoriteMovie> getSelected() {
+        return selected;
+    }*/
 }

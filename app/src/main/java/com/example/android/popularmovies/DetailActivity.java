@@ -1,7 +1,9 @@
 package com.example.android.popularmovies;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
@@ -16,6 +18,8 @@ import com.example.android.popularmovies.database.MovieViewModel;
 import com.example.android.popularmovies.model.Movie;
 import com.squareup.picasso.Picasso;
 
+import java.util.List;
+
 public class DetailActivity extends AppCompatActivity {
 
     private static final String TAG = DetailActivity.class.getSimpleName();
@@ -23,7 +27,7 @@ public class DetailActivity extends AppCompatActivity {
     private MovieViewModel viewModel;
 
     // movie loaded from database by id
-    private LiveData<FavoriteMovie> movieById;
+    // private LiveData<FavoriteMovie> movieById;
 
     // star button that user can press to mark movie as a favorite
     private ImageView favoritesImageView;
@@ -37,6 +41,9 @@ public class DetailActivity extends AppCompatActivity {
     private TextView releaseDateDisplay;
 
     private Movie movie;
+
+    // Movie key when retrieving Intent
+    private static final String EXTRA_MOVIE = "Movie";
 
     private String backdropURL;
     private int id;
@@ -63,9 +70,9 @@ public class DetailActivity extends AppCompatActivity {
 
         // get the Movie from Intent
         Intent intentThatStartedThisActivity = getIntent();
-        if (intentThatStartedThisActivity.hasExtra("Movie"))
+        if (intentThatStartedThisActivity.hasExtra(EXTRA_MOVIE))
         {
-            movie = intentThatStartedThisActivity.getParcelableExtra("Movie");
+            movie = intentThatStartedThisActivity.getParcelableExtra(EXTRA_MOVIE);
 
             if (movie != null) {
 
@@ -90,25 +97,39 @@ public class DetailActivity extends AppCompatActivity {
                 /* Check if this movie already exists in the favorite movies database.
                    Mark the favorites button if it does, otherwise un-mark. */
                 Log.d(TAG, "id is " + id);
-                movieById = viewModel.getMovieById(id);
-                Log.d(TAG, "movie loaded from id is " + movieById);
-                if (movieById == null) {
-                    isMarkedAsFavorite = false;
-                    favoritesImageView.setImageResource(R.drawable.ic_star_border_yellow_24dp);
-                    Log.d(TAG, "movie does not exist in favorites list");
-                } else {
+                /*movieById = viewModel.getMovieById(id);
+                if (movieById != null && movieById.getValue() != null) {
+                    Log.d(TAG, "Got movie " + id + ". Movie loaded from id is " + movieById.getValue().getTitle());
                     isMarkedAsFavorite = true;
                     favoritesImageView.setImageResource(R.drawable.ic_star_yellow_24dp);
                     Log.d(TAG, "movie already exists in favorites list");
                 }
-                /*if (movieById != null) {
-                    movieById.observe(this, new Observer<FavoriteMovie>() {
-                        @Override
-                        public void onChanged(@Nullable final FavoriteMovie favoriteMovie) {
-                            Log.d(TAG, "movie with id " + id + " is " + favoriteMovie);
-                        }
-                    });
+                else
+                {
+                    isMarkedAsFavorite = false;
+                    favoritesImageView.setImageResource(R.drawable.ic_star_border_yellow_24dp);
+                    Log.d(TAG, "movie does not exist in favorites list");
                 }*/
+
+                viewModel.getAllMovies().observe(this, new Observer<List<FavoriteMovie>>() {
+                    @Override
+                    public void onChanged(@Nullable final List<FavoriteMovie> favoriteMovies) {
+                        Log.d(TAG, "favorites database has changed in detail activity");
+                        if (favoriteMovies != null) {
+                            for (int i = 0; i < favoriteMovies.size(); i++) {
+                                Log.d(TAG, "movie " + favoriteMovies.get(i).getId()
+                                        + " is " + favoriteMovies.get(i).getTitle());
+
+                                if (favoriteMovies.get(i).getId() == id)
+                                {
+                                    isMarkedAsFavorite = true;
+                                    favoritesImageView.setImageResource(R.drawable.ic_star_yellow_24dp);
+                                    Log.d(TAG, "movie already exists in favorites list");
+                                }
+                            }
+                        }
+                    }
+                });
 
                 // click on favorites button
                 favoritesImageView.setOnClickListener(new View.OnClickListener() {

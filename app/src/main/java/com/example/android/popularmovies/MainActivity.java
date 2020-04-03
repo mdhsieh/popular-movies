@@ -52,9 +52,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     // load movies by most popular or highest rated
     private String option;
 
-    private static MovieViewModel viewModel;
+    // Movie key when using Intent
+    private static final String EXTRA_MOVIE = "Movie";
 
-    private LiveData<FavoriteMovie> movieById;
+    private MovieViewModel viewModel;
+
+    //private LiveData<FavoriteMovie> movieLoadedById;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,6 +125,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 }
             }
         });
+
+        /*final int AD_ASTRA_ID = 419704;
+        movieLoadedById = viewModel.getMovieById(AD_ASTRA_ID);
+        if (movieLoadedById != null)
+        {
+            movieLoadedById.observe(this, new Observer<FavoriteMovie>() {
+                @Override
+                public void onChanged(@Nullable final FavoriteMovie favoriteMovie) {
+                    Log.d(TAG, "movie with id " + AD_ASTRA_ID + " is " + favoriteMovie);
+                }
+            });
+        }*/
     }
 
     /** Save the sort option if for example the user changes orientation
@@ -158,6 +173,10 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 movieAdapter.setMovieData(null);
                 loadMovieData();
                 return true;
+            case R.id.action_display_favorites:
+                movieAdapter.setMovieData(null);
+                // load favorites collection
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -168,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         Context context = this;
         Class destinationClass = DetailActivity.class;
         Intent intentToStartDetailActivity = new Intent(context, destinationClass);
-        intentToStartDetailActivity.putExtra("Movie", movie);
+        intentToStartDetailActivity.putExtra(EXTRA_MOVIE, movie);
         startActivity(intentToStartDetailActivity);
     }
 
