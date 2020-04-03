@@ -16,7 +16,6 @@
 package com.example.android.popularmovies.utilities;
 
 import android.content.Context;
-//import android.util.Log;
 
 import com.example.android.popularmovies.model.Movie;
 
@@ -31,8 +30,6 @@ import java.util.List;
  * Utility functions to handle MovieDB JSON data.
  */
 public final class MovieJsonUtils {
-
-    private static final String TAG = MovieJsonUtils.class.getSimpleName();
 
     /**
      * This method parses JSON from a web response and returns an ArrayList of Movies
@@ -52,7 +49,6 @@ public final class MovieJsonUtils {
         JSONArray movieResultsArray = movieJson.optJSONArray("results");
 
         final int NUM_MOVIE_RESULTS = movieResultsArray.length();
-        //Log.d(TAG, "Number of movies: " + NUM_MOVIE_RESULTS);
 
         ArrayList<Movie> parsedMovieData = new ArrayList<Movie>();
 

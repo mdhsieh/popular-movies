@@ -10,8 +10,14 @@ import android.os.Parcelable;
 public class Movie implements Parcelable {
 
     private final String BASE_URL = "http://image.tmdb.org/t/p/";
-    private final String POSTER_SIZE = "w185";
-    private final String BACKDROP_SIZE = "w342";
+    /*
+        To build an image URL to display the poster and backdrop,
+        you will need a 'size', which will be one of the following: "w92",
+        "w154", "w185", "w342", "w500", "w780", or "original". For most phones
+        the recommended size to use is "w185".
+     */
+    private static String POSTER_SIZE = "w185";
+    private static String BACKDROP_SIZE = "w342";
 
     private int id;
     private String title;
@@ -20,9 +26,6 @@ public class Movie implements Parcelable {
     private int userRating;
     private String releaseDate;
     private String backdropURL;
-
-    public Movie() {
-    }
 
     public Movie(int id, String title, String posterURL, String synopsis, int userRating, String releaseDate, String backdropURL) {
         this.id = id;
@@ -60,6 +63,14 @@ public class Movie implements Parcelable {
 
     public String getBackdropURL() {
         return backdropURL;
+    }
+
+    /* Change the poster and backdrop size if the app is running on a tablet. */
+    public static void setBACKDROP_SIZE(String BACKDROP_SIZE) {
+        Movie.BACKDROP_SIZE = BACKDROP_SIZE;
+    }
+    public static void setPOSTER_SIZE(String POSTER_SIZE) {
+        Movie.POSTER_SIZE = POSTER_SIZE;
     }
 
     /* in the case you have more than one field to retrieve from a given Parcel,

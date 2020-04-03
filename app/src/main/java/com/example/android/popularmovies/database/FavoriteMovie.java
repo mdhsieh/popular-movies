@@ -11,8 +11,8 @@ import androidx.room.PrimaryKey;
 public class FavoriteMovie { //implements Parcelable {
 
     private final String BASE_URL = "http://image.tmdb.org/t/p/";
-    private final String POSTER_SIZE = "w185";
-    private final String BACKDROP_SIZE = "w342";
+    private static String POSTER_SIZE = "w185";
+    private static String BACKDROP_SIZE = "w342";
 
     @PrimaryKey
     private int id;
@@ -92,9 +92,13 @@ public class FavoriteMovie { //implements Parcelable {
         return BACKDROP_SIZE;
     }
     public String getPOSTER_SIZE() { return POSTER_SIZE; }
-    public void setBASE_URL(String BASE_URL) {}
-    public void setBACKDROP_SIZE(String BACKDROP_SIZE) {}
-    public void setPOSTER_SIZE(String POSTER_SIZE) {}
+    public void setBASE_URL(String BASE_URL) { }
+    public static void setBACKDROP_SIZE(String BACKDROP_SIZE) {
+        FavoriteMovie.BACKDROP_SIZE = BACKDROP_SIZE;
+    }
+    public static void setPOSTER_SIZE(String POSTER_SIZE) {
+        FavoriteMovie.POSTER_SIZE = POSTER_SIZE;
+    }
 
     /* in the case you have more than one field to retrieve from a given Parcel,
     you must do this in the same order you put them in (that is, in a FIFO approach)*/

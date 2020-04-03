@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,6 +51,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     // key when storing or retrieving the selected option
     private static final String STATE_OPTION = "option";
 
+    // key when checking if we have detected device size already
+    private static final String STATE_DEVICE_SIZE_IS_CHECKED = "checked";
+
     // load movies by most popular, highest rated, or favorites
     private String option;
 
@@ -65,6 +69,16 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
     // list of all favorite movies in Room database
     List<FavoriteMovie> allFavoriteMovies;
+
+    // the minimum size of a tablet, defined arbitrarily
+    private final static double MIN_TABLET_SCREEN_INCHES = 6.5;
+
+    // We only need to detect the device size once on app startup
+    private boolean deviceSizeIsChecked = false;
+
+    // image sizes for tablets
+    private static final String TABLET_POSTER_SIZE = "w500";   //"w342";
+    private static final String TABLET_BACKDROP_SIZE = "w780";  //"w500";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -115,9 +129,42 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         if (savedInstanceState != null) {
             // Restore option from saved state
             option = savedInstanceState.getString(STATE_OPTION);
+
+            // Restore whether the device screen size has been checked
+            deviceSizeIsChecked = savedInstanceState.getBoolean(STATE_DEVICE_SIZE_IS_CHECKED);
         } else {
             // default option is most popular
             option = STRING_POPULAR;
+        }
+
+        /*
+            Check if the device is a phone or tablet based on screen size.
+            If it's a tablet, we need to change the image size of the
+            poster and backdrop URL in our Movies and FavoriteMovies.
+
+            Source: https://stackoverflow.com/questions/9279111/determine-if-the-device-is-a-smartphone-or-tablet
+         */
+        if (!deviceSizeIsChecked) {
+            DisplayMetrics metrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getMetrics(metrics);
+
+            float yInches = metrics.heightPixels / metrics.ydpi;
+            float xInches = metrics.widthPixels / metrics.xdpi;
+            double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
+            if (diagonalInches >= MIN_TABLET_SCREEN_INCHES) {
+                // 6.5 inch device or bigger
+                Log.d(TAG, "The device is a tablet");
+                // set image sizes for Movies
+                Movie.setPOSTER_SIZE(TABLET_POSTER_SIZE);
+                Movie.setBACKDROP_SIZE(TABLET_BACKDROP_SIZE);
+                // set image sizes for FavoriteMovies. These must be same as Movies
+                FavoriteMovie.setPOSTER_SIZE(TABLET_POSTER_SIZE);
+                FavoriteMovie.setBACKDROP_SIZE(TABLET_BACKDROP_SIZE);
+            } else {
+                // smaller device, probably a phone, so don't change sizes and keep default sizes
+                Log.d(TAG, "The device is a phone");
+            }
+            deviceSizeIsChecked = true;
         }
 
 
@@ -126,14 +173,12 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         viewModel.getAllMovies().observe(this, new Observer<List<FavoriteMovie>>() {
             @Override
             public void onChanged(@Nullable final List<FavoriteMovie> favoriteMovies) {
-                //Log.d(TAG, "favorites list has changed");
                 if (favoriteMovies != null) {
                     allFavoriteMovies = favoriteMovies;
 
                     // reload favorites if returning from details activity or rotating screen
                     if (option.equals(STRING_FAVORITES))
                     {
-                        Log.d(TAG, "observed and loading favorites collection");
                         movieAdapter.setFavoriteMovies(null);
                         loadFavoriteMovies();
                     }
@@ -155,6 +200,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     protected void onSaveInstanceState(@NonNull Bundle savedInstanceState) {
         // Save the current selected option
         savedInstanceState.putString(STATE_OPTION, option);
+
+        // Save whether the device size has been checked
+        savedInstanceState.putBoolean(STATE_DEVICE_SIZE_IS_CHECKED, deviceSizeIsChecked);
 
         // Always call the superclass so it can save the view hierarchy state
         super.onSaveInstanceState(savedInstanceState);
