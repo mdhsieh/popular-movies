@@ -45,6 +45,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private TextView errorMessageDisplay;
     private ProgressBar loadingIndicator;
 
+    private TextView noFavoritesMessageDisplay;
+
     // key when storing or retrieving the selected option
     private static final String STATE_OPTION = "option";
 
@@ -94,6 +96,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
 
         errorMessageDisplay = findViewById(R.id.tv_error_message_display);
 
+        noFavoritesMessageDisplay = findViewById(R.id.tv_empty_favorites_message_display);
+
         loadingIndicator = findViewById(R.id.pb_loading_indicator);
 
         // 2 column grid layout
@@ -122,13 +126,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         viewModel.getAllMovies().observe(this, new Observer<List<FavoriteMovie>>() {
             @Override
             public void onChanged(@Nullable final List<FavoriteMovie> favoriteMovies) {
-                Log.d(TAG, "favorites list has changed");
+                //Log.d(TAG, "favorites list has changed");
                 if (favoriteMovies != null) {
                     allFavoriteMovies = favoriteMovies;
-                    for (int i = 0; i < allFavoriteMovies.size(); i++) {
-                        Log.d(TAG, "movie " + allFavoriteMovies.get(i).getId()
-                                + " is " + allFavoriteMovies.get(i).getTitle());
-                    }
 
                     // reload favorites if returning from details activity or rotating screen
                     if (option.equals(STRING_FAVORITES))
@@ -214,14 +214,13 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     {
         showMovieDataView();
 
-        //new FetchFavoriteMoviesTask().execute(allFavoriteMovies);
-
-        if (allFavoriteMovies != null) {
+        // if there are movies in the favorites collection, show them
+        if (allFavoriteMovies != null && allFavoriteMovies.size() > 0) {
             movieAdapter.setFavoriteMovies(allFavoriteMovies);
         }
         else
         {
-            showErrorMessage();
+            showNoFavoritesMessage();
         }
     }
 
@@ -234,6 +233,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         errorMessageDisplay.setVisibility(View.INVISIBLE);
         // Then, make sure the movie data is visible
         recyclerView.setVisibility(View.VISIBLE);
+
+        // Also make sure the no favorites message is gone
+        noFavoritesMessageDisplay.setVisibility(View.GONE);
     }
 
     /**
@@ -245,6 +247,22 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         recyclerView.setVisibility(View.INVISIBLE);
         // Then, show the error
         errorMessageDisplay.setVisibility(View.VISIBLE);
+
+        // Also make sure the no favorites message is gone
+        noFavoritesMessageDisplay.setVisibility(View.GONE);
+    }
+
+    /**
+     * This method will make the empty favorites message visible and hide the movie
+     * View and error message.
+     */
+    private void showNoFavoritesMessage() {
+        // first, hide the currently visible data
+        recyclerView.setVisibility(View.INVISIBLE);
+        // hide the error message because it's unrelated
+        errorMessageDisplay.setVisibility(View.GONE);
+        // then, show the no favorites message
+        noFavoritesMessageDisplay.setVisibility(View.VISIBLE);
     }
 
     public class FetchMoviesTask extends AsyncTask<String, Void, List<Movie>> {

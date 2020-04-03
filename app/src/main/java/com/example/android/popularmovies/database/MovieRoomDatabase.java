@@ -56,7 +56,7 @@ public abstract class MovieRoomDatabase extends RoomDatabase {
 
             // If you want to keep data through app restarts,
             // comment out the following block
-            databaseWriteExecutor.execute(new Runnable() {
+            /*databaseWriteExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
                     // Populate the database in the background.
@@ -66,7 +66,7 @@ public abstract class MovieRoomDatabase extends RoomDatabase {
 
                     Log.d(TAG, "deleted all data on startup");
                 }
-            });
+            });*/
         }
     };
 }

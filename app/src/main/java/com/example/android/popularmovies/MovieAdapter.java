@@ -19,8 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHolder> {
 
-    private static final String TAG = MovieAdapter.class.getSimpleName();
-
     private List<Movie> mData;
 
     private MovieAdapterOnClickHandler mClickHandler;
@@ -104,6 +102,7 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
         if (favoriteMovies != null) {
             for (int i = 0; i < favoriteMovies.size(); i++) {
                 favoriteMovie = favoriteMovies.get(i);
+
                 /* We only want the last part of the poster and backdrop URL when
                 constructing a Movie object. We will already append
                 the base and size URL in the Movie constructor, so we get
@@ -125,10 +124,5 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
 
         mData = movieData;
         notifyDataSetChanged();
-
-        for (int i = 0; i < mData.size(); i++) {
-            Log.d(TAG, "movie in data is " + mData.get(i).getTitle()
-            + " with poster url " + mData.get(i).getPosterURL());
-        }
     }
 }

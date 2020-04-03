@@ -1,26 +1,19 @@
 package com.example.android.popularmovies.database;
 
 import android.app.Application;
-import android.util.Log;
 
 import java.util.List;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
 public class MovieViewModel extends AndroidViewModel {
-
-    private final static String TAG = MovieViewModel.class.getSimpleName();
 
     private MovieRepository repository;
     private LiveData<List<FavoriteMovie>> allMovies;
 
     private LiveData<FavoriteMovie> movie;
-
-    //private final MutableLiveData<FavoriteMovie> selected = new MutableLiveData<FavoriteMovie>();
-
 
     public MovieViewModel(@NonNull Application application) {
         super(application);
@@ -45,12 +38,4 @@ public class MovieViewModel extends AndroidViewModel {
         movie = repository.getMovieById(id);
         return movie;
     }
-
-    /*public void select(FavoriteMovie item) {
-        selected.setValue(item);
-    }
-
-    public LiveData<FavoriteMovie> getSelected() {
-        return selected;
-    }*/
 }
