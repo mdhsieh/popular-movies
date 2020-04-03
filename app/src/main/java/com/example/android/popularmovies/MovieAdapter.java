@@ -120,7 +120,6 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
                         favoriteMovie.getReleaseDate(),
                         favoriteMovie.getPartialBackdropURL());
                 movieData.add(movie);
-                //Log.d(TAG, "Added movie " + movie.getTitle());
             }
         }
 
@@ -131,6 +130,5 @@ public class MovieAdapter extends RecyclerView.Adapter<MovieAdapter.MovieViewHol
             Log.d(TAG, "movie in data is " + mData.get(i).getTitle()
             + " with poster url " + mData.get(i).getPosterURL());
         }
-        //Log.d(TAG, "Total number of movies in favorites collection is " + mData.size());
     }
 }

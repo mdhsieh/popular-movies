@@ -15,8 +15,8 @@ public interface MovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(FavoriteMovie movie);
 
-    @Update
-    void update(FavoriteMovie movie);
+    //@Update
+    //void update(FavoriteMovie movie);
 
     //@Query("UPDATE movie_table SET favorite = :favorite WHERE id = :id")
     //int updateMovie(int id, boolean favorite);

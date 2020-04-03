@@ -124,14 +124,18 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             public void onChanged(@Nullable final List<FavoriteMovie> favoriteMovies) {
                 Log.d(TAG, "favorites list has changed");
                 if (favoriteMovies != null) {
-                    /*for (int i = 0; i < favoriteMovies.size(); i++) {
-                        Log.d(TAG, "movie " + favoriteMovies.get(i).getId()
-                                + " is " + favoriteMovies.get(i).getTitle());
-                    }*/
                     allFavoriteMovies = favoriteMovies;
                     for (int i = 0; i < allFavoriteMovies.size(); i++) {
                         Log.d(TAG, "movie " + allFavoriteMovies.get(i).getId()
                                 + " is " + allFavoriteMovies.get(i).getTitle());
+                    }
+
+                    // reload favorites if returning from details activity or rotating screen
+                    if (option.equals(STRING_FAVORITES))
+                    {
+                        Log.d(TAG, "observed and loading favorites collection");
+                        movieAdapter.setFavoriteMovies(null);
+                        loadFavoriteMovies();
                     }
                 }
             }
@@ -140,14 +144,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
         if (option != null && !option.equals(STRING_FAVORITES)) {
             loadMovieData();
         }
-        else
-        {
-            Log.d(TAG, "loading favorites collection on create");
-            loadFavoriteMovies();
-        }
-
-        // ViewModel was here before
-
     }
 
     /** Save the sort option if for example the user changes orientation
@@ -188,7 +184,6 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                 option = STRING_FAVORITES;
                 movieAdapter.setFavoriteMovies(null);
                 // load favorites collection
-                //Log.d(TAG, "at time of favorites menu click collections size is " + allFavoriteMovies.size());
                 loadFavoriteMovies();
                 return true;
             default:
@@ -297,33 +292,5 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             }
         }
     }
-
-    // background task to get favorite movies collection from database
-    /*public class FetchFavoriteMoviesTask extends AsyncTask<List<FavoriteMovie>, Void, List<Movie>> {
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            loadingIndicator.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        protected List<Movie> doInBackground(List<FavoriteMovie>... lists) {
-            Log.d(TAG, "setting adapter data to favorite movies");
-            return movieAdapter.setFavoriteMovies(lists[0]);
-        }
-
-        @Override
-        protected void onPostExecute(List<Movie> movies) {
-            super.onPostExecute(movies);
-            loadingIndicator.setVisibility(View.INVISIBLE);
-            if (movies != null) {
-                showMovieDataView();
-                Log.d(TAG ,"finished and size is " + movies.size());
-            } else {
-                showErrorMessage();
-            }
-        }
-    }*/
 
 }

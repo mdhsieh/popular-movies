@@ -1,7 +1,7 @@
 package com.example.android.popularmovies.database;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+//import android.os.Parcel;
+//import android.os.Parcelable;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

@@ -27,7 +27,7 @@ public class DetailActivity extends AppCompatActivity {
     private MovieViewModel viewModel;
 
     // movie loaded from database by id
-    // private LiveData<FavoriteMovie> movieById;
+    //private LiveData<FavoriteMovie> movieById;
 
     // star button that user can press to mark movie as a favorite
     private ImageView favoritesImageView;
@@ -94,9 +94,7 @@ public class DetailActivity extends AppCompatActivity {
                 userRatingDisplay.setText(String.format(getString(R.string.out_of_10), userRating));
                 releaseDateDisplay.setText(releaseDate);
 
-                /* Check if this movie already exists in the favorite movies database.
-                   Mark the favorites button if it does, otherwise un-mark. */
-                Log.d(TAG, "id is " + id);
+                //Log.d(TAG, "id is " + id);
                 /*movieById = viewModel.getMovieById(id);
                 if (movieById != null && movieById.getValue() != null) {
                     Log.d(TAG, "Got movie " + id + ". Movie loaded from id is " + movieById.getValue().getTitle());
@@ -111,14 +109,27 @@ public class DetailActivity extends AppCompatActivity {
                     Log.d(TAG, "movie does not exist in favorites list");
                 }*/
 
+                /*if (movieById != null)
+                {
+                    movieById.observe(this, new Observer<FavoriteMovie>() {
+                        @Override
+                        public void onChanged(FavoriteMovie favoriteMovie) {
+                            if (favoriteMovie != null) {
+                                Log.d(TAG, "movie " + favoriteMovie.getId() + " with title " + favoriteMovie.getTitle() + " has changed");
+                            }
+                        }
+                    });
+                }*/
+
+                /* Check if this movie already exists in the favorite movies database.
+                   Mark the favorites button if it does, otherwise un-mark. */
                 viewModel.getAllMovies().observe(this, new Observer<List<FavoriteMovie>>() {
                     @Override
                     public void onChanged(@Nullable final List<FavoriteMovie> favoriteMovies) {
-                        //Log.d(TAG, "favorites database has changed in detail activity");
                         if (favoriteMovies != null) {
                             for (int i = 0; i < favoriteMovies.size(); i++) {
-                                Log.d(TAG, "movie " + favoriteMovies.get(i).getId()
-                                        + " is " + favoriteMovies.get(i).getTitle());
+                                /*Log.d(TAG, "movie " + favoriteMovies.get(i).getId()
+                                        + " is " + favoriteMovies.get(i).getTitle());*/
 
                                 if (favoriteMovies.get(i).getId() == id)
                                 {
@@ -139,7 +150,7 @@ public class DetailActivity extends AppCompatActivity {
                         // create a FavoriteMovie matching the Movie object
                         FavoriteMovie favoriteMovie = new FavoriteMovie(id,
                         title, movie.getPosterURL(), synopsis, userRating, releaseDate, backdropURL);
-                        Log.d(TAG, "possible favorite movie's poster url is " + favoriteMovie.getPosterURL());
+                        //Log.d(TAG, "possible favorite movie's poster url is " + favoriteMovie.getPosterURL());
 
                         if (!isMarkedAsFavorite)
                         {
