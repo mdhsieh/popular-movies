@@ -22,6 +22,7 @@ import com.example.android.popularmovies.utilities.MovieJsonUtils;
 import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -169,7 +170,7 @@ public class DetailActivity extends AppCompatActivity {
             /*
                 Get the video URLs from this movie in a background task
              */
-            new FetchVideosFromMovieTask().execute(id);
+            new FetchVideosFromMovieTask(this).execute(id);
 
             /*
                 Click on video button 1. Play the corresponding video if it exists.
@@ -214,13 +215,22 @@ public class DetailActivity extends AppCompatActivity {
         Intent playVideoIntent = new Intent(Intent.ACTION_VIEW);
         playVideoIntent.setData(videoUri);
         if (playVideoIntent.resolveActivity(getPackageManager()) != null) {
-            Log.d(TAG, "starting video using URL " + urlText);
+            //Log.d(TAG, "starting video using URL " + urlText);
             startActivity(playVideoIntent);
         }
     }
 
     static class FetchVideosFromMovieTask extends AsyncTask<Integer, Void, List<String>>
     {
+        // use a weak reference to DetailActivity to get UI components and still avoid potential memory leak
+        // source: https://stackoverflow.com/questions/44309241/warning-this-asynctask-class-should-be-static-or-leaks-might-occur
+        private WeakReference<DetailActivity> activityReference;
+
+        // only retain a weak reference to the activity
+        FetchVideosFromMovieTask(DetailActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
         @Override
         protected List<String> doInBackground(Integer... integers) {
             if (integers.length == 0) {
@@ -254,9 +264,54 @@ public class DetailActivity extends AppCompatActivity {
 
             DetailActivity.videoUrls = strings;
 
-            for (int i = 0; i < videoUrls.size(); i++)
+            // get a reference to the activity if it is still there
+            DetailActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+
+            // modify the activity's UI
+            TextView videosLabel = activity.findViewById(R.id.textView6);
+
+            Button firstVideoButton = activity.findViewById(R.id.btn_video_1);
+            Button secondVideoButton = activity.findViewById(R.id.btn_video_2);
+            Button thirdVideoButton = activity.findViewById(R.id.btn_video_3);
+
+            // first set videos label to visible
+            videosLabel.setVisibility(View.VISIBLE);
+
+            // next set all video buttons to visible
+            firstVideoButton.setVisibility(View.VISIBLE);
+            secondVideoButton.setVisibility(View.VISIBLE);
+            thirdVideoButton.setVisibility(View.VISIBLE);
+
+            if (videoUrls != null) {
+                int numVideos = videoUrls.size();
+
+                /*for (int i = 0; i < videoUrls.size(); i++) {
+                    Log.d(TAG, "video url " + videoUrls.get(i));
+                }*/
+
+                /* If a movie only has a certain number of videos,
+                   don't show the remaining buttons */
+                if (numVideos < 1) {
+                    // We don't show the videos label if the movie has no videos
+                    videosLabel.setVisibility(View.GONE);
+
+                    // there are no videos, so hide all buttons
+                    firstVideoButton.setVisibility(View.GONE);
+                    secondVideoButton.setVisibility(View.GONE);
+                    thirdVideoButton.setVisibility(View.GONE);
+                } else if (numVideos < 2) {
+                    // there is 1 video, so hide 2nd and 3rd buttons
+                    secondVideoButton.setVisibility(View.GONE);
+                    thirdVideoButton.setVisibility(View.GONE);
+                } else if (numVideos < 3) {
+                    // there are 2 videos, so hide 3rd buttons
+                    thirdVideoButton.setVisibility(View.GONE);
+                }
+            }
+            else
             {
-                Log.d(TAG, "video url " + videoUrls.get(i));
+                Log.e(TAG, "Video URLs list is null.");
             }
         }
     }
