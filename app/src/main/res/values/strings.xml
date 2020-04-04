@@ -27,6 +27,7 @@
     <string name="detail_videos_label">Videos (will open in new browser):</string>
     <string name="detail_play_trailer_1_label">Play Trailer 1</string>
     <string name="detail_play_trailer_2_label">Play Trailer 2</string>
+    <string name="detail_play_trailer_3_label">Play Trailer 3</string>
 
     <!-- Content descriptions-->
     <string name="movie_picture_content_description">Movie picture</string>

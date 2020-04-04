@@ -65,6 +65,7 @@
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/tv_display_synopsis" />
 
+        <!--android:paddingBottom="32dp"-->
         <TextView
             android:id="@+id/textView5"
             style="@android:style/TextAppearance.Medium"
@@ -72,12 +73,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
-            android:paddingBottom="32dp"
             android:text="@string/detail_release_date_label"
             android:textStyle="bold"
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_display_release_date"
             app:layout_constraintStart_toStartOf="parent" />
 
+        <!--android:paddingBottom="32dp"-->
         <TextView
             android:id="@+id/tv_display_release_date"
             android:layout_width="400dp"
@@ -86,7 +87,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="24dp"
-            android:paddingBottom="32dp"
             app:layout_constraintStart_toEndOf="@+id/textView5"
             app:layout_constraintTop_toBottomOf="@+id/tv_display_user_rating" />
 
@@ -142,6 +142,23 @@
             android:drawableRight="@drawable/ic_play_arrow_black_24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_video_1" />
+
+        <Button
+            android:id="@+id/btn_video_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+
+            android:layout_marginBottom="32dp"
+
+            android:drawableEnd="@drawable/ic_play_arrow_black_24dp"
+            android:drawableRight="@drawable/ic_play_arrow_black_24dp"
+            android:text="@string/detail_play_trailer_3_label"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_video_2" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
