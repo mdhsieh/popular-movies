@@ -15,7 +15,7 @@
  */
 package com.example.android.popularmovies.utilities;
 
-import android.content.Context;
+import android.util.Log;
 
 import com.example.android.popularmovies.model.Movie;
 
@@ -23,6 +23,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,8 @@ import java.util.List;
  * Utility functions to handle MovieDB JSON data.
  */
 public final class MovieJsonUtils {
+
+    private final static String TAG = MovieJsonUtils.class.getSimpleName();
 
     /**
      * This method parses JSON from a web response and returns an ArrayList of Movies
@@ -41,7 +44,7 @@ public final class MovieJsonUtils {
      *
      * @throws JSONException If JSON data cannot be properly parsed
      */
-    public static List<Movie> getSimpleMovieStringsFromJson(Context context, String movieJsonStr)
+    public static List<Movie> getSimpleMovieStringsFromJson(String movieJsonStr)
             throws JSONException {
 
         JSONObject movieJson = new JSONObject(movieJsonStr);
@@ -62,6 +65,10 @@ public final class MovieJsonUtils {
         int userRating;
         String releaseDate;
         String backdropPath;
+
+        // URL to get video
+        //URL videoURL;
+
         for (int i = 0; i < NUM_MOVIE_RESULTS; i++)
         {
             movieResultObject = movieResultsArray.optJSONObject(i);
@@ -73,11 +80,66 @@ public final class MovieJsonUtils {
             releaseDate = movieResultObject.optString("release_date");
             backdropPath = movieResultObject.optString("backdrop_path");
 
+            /*videoURL = NetworkUtils.buildVideoUrl(id);
+
+            try {
+
+                String jsonVideoResponse = NetworkUtils
+                        .getResponseFromHttpUrl(videoURL);
+
+                Log.d(TAG, "json string response of movie video " + id + " is " + jsonVideoResponse);
+
+            } catch (Exception e) {
+                Log.e(TAG, "Error building video url.");
+                e.printStackTrace();
+                return null;
+            }*/
+
             movie = new Movie(id, title, posterPath, overview, userRating, releaseDate, backdropPath);
 
             parsedMovieData.add(movie);
         }
 
         return parsedMovieData;
+    }
+
+    /**
+     * This method parses JSON from a specified movie and returns an ArrayList of Strings
+     * which are the YouTube links to each video.
+     *
+     * @param jsonVideoResponse The parsed json response from the specified movie
+     *
+     * @return list which has the complete YouTube URLs of the movie's videos
+     *
+     */
+    public static List<String> getSimpleVideoStringsFromJson(String jsonVideoResponse) throws JSONException {
+
+        final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
+
+        // list of parsed video URLs
+        ArrayList<String> parsedVideoStrings = new ArrayList<String>();
+
+        // parse the json string
+        JSONObject videoJson = new JSONObject(jsonVideoResponse);
+
+        JSONArray videoResultsArray = videoJson.optJSONArray("results");
+
+        JSONObject videoResultObject;
+        String videoKey;
+
+        if (videoResultsArray != null) {
+            final int NUM_VIDEO_RESULTS = videoResultsArray.length();
+
+            Log.d(TAG, "json array video results are " + videoResultsArray);
+            Log.d(TAG, "there are " + NUM_VIDEO_RESULTS + " videos");
+
+            for (int i = 0; i < NUM_VIDEO_RESULTS; i++) {
+                videoResultObject = videoResultsArray.optJSONObject(i);
+                videoKey = videoResultObject.optString("key");
+                Log.d(TAG, "video key is " + videoKey);
+            }
+        }
+
+        return parsedVideoStrings;
     }
 }

@@ -337,7 +337,7 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
                         .getResponseFromHttpUrl(movieRequestUrl);
 
                 List<Movie> simpleJsonMovieData = MovieJsonUtils
-                        .getSimpleMovieStringsFromJson(MainActivity.this, jsonMovieResponse);
+                        .getSimpleMovieStringsFromJson(jsonMovieResponse);
 
                 return simpleJsonMovieData;
 

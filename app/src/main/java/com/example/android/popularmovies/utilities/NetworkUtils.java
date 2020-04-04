@@ -32,8 +32,8 @@ public final class NetworkUtils {
 
     private static final String TAG = NetworkUtils.class.getSimpleName();
 
-    /*In order to request popular movies you will want to request data from
-     the /movie/popular and /movie/top_rated endpoints*/
+    /* In order to request popular and highest rated movies you will want to request data from
+     the /movie/popular and /movie/top_rated endpoints */
 
     // example: "http://api.themoviedb.org/3/movie/popular?api_key=[YOUR_API_KEY]"
 
@@ -46,6 +46,18 @@ public final class NetworkUtils {
     private static final String OPTION_RATED_PARAM = "/top_rated";
 
     final static String QUESTION_PARAM = "?";
+
+    /*
+        In order to fetch a movie's videos and reviews you will want to request data from
+        the /movie/{id}/videos and /movie/{id}/reviews endpoints, where {id}
+        is a particular movie's ID.
+     */
+
+    // example: http://api.themoviedb.org/3/movie/<movie_id>/videos?api_key=<api_key>
+
+    // To get the Youtube URL get the movie's key and use https://www.youtube.com/watch?v=<key>
+
+    private final static String VIDEO_PARAM = "/videos";
 
     private final static String API_KEY_PARAM = "api_key=" + ApiKey.getApiKey();
 
@@ -77,10 +89,36 @@ public final class NetworkUtils {
             e.printStackTrace();
         }
 
-        Log.v(TAG, "Built URI " + url);
+        Log.v(TAG, "Built URL " + url);
 
         return url;
     }
+
+
+    /**
+     * Builds the URL used to get the video of a movie
+     * specified by the movie's ID.
+     *
+     * @param id The ID of the movie.
+     * @return The URL to use to query MovieDB.
+     */
+    public static URL buildVideoUrl(int id) {
+
+        URL url = null;
+
+        try {
+
+            url = new URL(MOVIE_BASE_URL + "/" + id + VIDEO_PARAM + QUESTION_PARAM + API_KEY_PARAM);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "malformed url exception", e);
+            e.printStackTrace();
+        }
+
+        Log.v(TAG, "Built video URL " + url);
+
+        return url;
+    }
+
 
     /**
      * This method returns the entire result from the HTTP response.

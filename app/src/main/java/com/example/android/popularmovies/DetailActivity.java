@@ -6,6 +6,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,8 +16,11 @@ import android.widget.TextView;
 import com.example.android.popularmovies.database.FavoriteMovie;
 import com.example.android.popularmovies.database.MovieViewModel;
 import com.example.android.popularmovies.model.Movie;
+import com.example.android.popularmovies.utilities.MovieJsonUtils;
+import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
+import java.net.URL;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
@@ -108,6 +112,11 @@ public class DetailActivity extends AppCompatActivity {
                     }
                 });
 
+                /*
+                    Get the video URLs from this movie in a background task
+                 */
+                new FetchVideosFromMovieTask().execute(id);
+
                 // click on favorites button
                 favoritesImageView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -140,6 +149,36 @@ public class DetailActivity extends AppCompatActivity {
             else
             {
                 Log.e(TAG, "Movie is null");
+            }
+        }
+    }
+
+    static class FetchVideosFromMovieTask extends AsyncTask<Integer, Void, List<String>>
+    {
+        @Override
+        protected List<String> doInBackground(Integer... integers) {
+            if (integers.length == 0) {
+                return null;
+            }
+
+            int id = integers[0];
+
+            // URL to get video
+            URL videoUrl = NetworkUtils.buildVideoUrl(id);
+
+            try {
+
+                String jsonVideoResponse = NetworkUtils
+                        .getResponseFromHttpUrl(videoUrl);
+
+                List<String> simpleJsonVideoStrings = MovieJsonUtils
+                        .getSimpleVideoStringsFromJson(jsonVideoResponse);
+
+                return simpleJsonVideoStrings;
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
             }
         }
     }
