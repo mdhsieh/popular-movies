@@ -116,7 +116,10 @@ public final class MovieJsonUtils {
 
         final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
-        // list of parsed video URLs
+        // only include videos that are trailers. Other options are "Featurette"
+        final String STRING_TRAILER = "Trailer";
+
+        // list of parsed video URLs that will be returned
         ArrayList<String> parsedVideoStrings = new ArrayList<String>();
 
         // parse the json string
@@ -124,19 +127,32 @@ public final class MovieJsonUtils {
 
         JSONArray videoResultsArray = videoJson.optJSONArray("results");
 
+        // json object of the entire video response that has info like video  key, name, and type
         JSONObject videoResultObject;
+        // string that tells whether each video is a trailer or short featurette
+        String videoType;
+        // key that is needed to complete the YouTube URL
         String videoKey;
 
         if (videoResultsArray != null) {
             final int NUM_VIDEO_RESULTS = videoResultsArray.length();
 
-            Log.d(TAG, "json array video results are " + videoResultsArray);
-            Log.d(TAG, "there are " + NUM_VIDEO_RESULTS + " videos");
+            //Log.d(TAG, "json array video results are " + videoResultsArray);
+            //Log.d(TAG, "there are " + NUM_VIDEO_RESULTS + " videos");
 
             for (int i = 0; i < NUM_VIDEO_RESULTS; i++) {
                 videoResultObject = videoResultsArray.optJSONObject(i);
+
+                videoType = videoResultObject.optString("type");
+                //Log.d(TAG, "video type is " + videoType);
+
                 videoKey = videoResultObject.optString("key");
-                Log.d(TAG, "video key is " + videoKey);
+                //Log.d(TAG, "video key is " + videoKey);
+
+                // remove if statement to add all videos to list
+                if (videoType.equals(STRING_TRAILER)) {
+                    parsedVideoStrings.add(BASE_YOUTUBE_URL + videoKey);
+                }
             }
         }
 

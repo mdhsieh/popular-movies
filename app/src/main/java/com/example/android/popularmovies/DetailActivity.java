@@ -21,6 +21,7 @@ import com.example.android.popularmovies.utilities.NetworkUtils;
 import com.squareup.picasso.Picasso;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DetailActivity extends AppCompatActivity {
@@ -51,6 +52,9 @@ public class DetailActivity extends AppCompatActivity {
     private String synopsis;
     private int userRating;
     private String releaseDate;
+
+    // ArrayList to hold all the YouTube URLs of this Movie
+    private static List<String> videoUrls = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -163,7 +167,7 @@ public class DetailActivity extends AppCompatActivity {
 
             int id = integers[0];
 
-            // URL to get video
+            // URL to get the videos
             URL videoUrl = NetworkUtils.buildVideoUrl(id);
 
             try {
@@ -179,6 +183,18 @@ public class DetailActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
                 return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<String> strings) {
+            super.onPostExecute(strings);
+
+            DetailActivity.videoUrls = strings;
+
+            for (int i = 0; i < videoUrls.size(); i++)
+            {
+                Log.d(TAG, "video url " + videoUrls.get(i));
             }
         }
     }
