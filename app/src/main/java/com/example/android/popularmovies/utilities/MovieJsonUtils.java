@@ -80,21 +80,6 @@ public final class MovieJsonUtils {
             releaseDate = movieResultObject.optString("release_date");
             backdropPath = movieResultObject.optString("backdrop_path");
 
-            /*videoURL = NetworkUtils.buildVideoUrl(id);
-
-            try {
-
-                String jsonVideoResponse = NetworkUtils
-                        .getResponseFromHttpUrl(videoURL);
-
-                Log.d(TAG, "json string response of movie video " + id + " is " + jsonVideoResponse);
-
-            } catch (Exception e) {
-                Log.e(TAG, "Error building video url.");
-                e.printStackTrace();
-                return null;
-            }*/
-
             movie = new Movie(id, title, posterPath, overview, userRating, releaseDate, backdropPath);
 
             parsedMovieData.add(movie);
@@ -116,7 +101,7 @@ public final class MovieJsonUtils {
 
         final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
-        // only include videos that are trailers. Other options are "Featurette"
+        // only include videos that are trailers. Other option is "Featurette"
         final String STRING_TRAILER = "Trailer";
 
         // list of parsed video URLs that will be returned
@@ -137,17 +122,12 @@ public final class MovieJsonUtils {
         if (videoResultsArray != null) {
             final int NUM_VIDEO_RESULTS = videoResultsArray.length();
 
-            //Log.d(TAG, "json array video results are " + videoResultsArray);
-            //Log.d(TAG, "there are " + NUM_VIDEO_RESULTS + " videos");
-
             for (int i = 0; i < NUM_VIDEO_RESULTS; i++) {
                 videoResultObject = videoResultsArray.optJSONObject(i);
 
                 videoType = videoResultObject.optString("type");
-                //Log.d(TAG, "video type is " + videoType);
 
                 videoKey = videoResultObject.optString("key");
-                //Log.d(TAG, "video key is " + videoKey);
 
                 // remove if statement to add all videos to list
                 if (videoType.equals(STRING_TRAILER)) {
