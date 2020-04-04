@@ -19,7 +19,7 @@
     <string name="detail_user_rating_label">User Rating:</string>
     <string name="detail_release_date_label">Release Date:</string>
 
-    <!-- get user rating of a specific movie at runtime
+    <!-- get average user rating of a specific movie at runtime
     %[parameter_index$][format_type]
     -->
     <string name="out_of_10">%1$d/10</string>
@@ -28,6 +28,8 @@
     <string name="detail_play_trailer_1_label">Play Trailer 1</string>
     <string name="detail_play_trailer_2_label">Play Trailer 2</string>
     <string name="detail_play_trailer_3_label">Play Trailer 3</string>
+
+    <string name="detail_reviews_label">Reviews:</string>
 
     <!-- Content descriptions-->
     <string name="movie_picture_content_description">Movie picture</string>

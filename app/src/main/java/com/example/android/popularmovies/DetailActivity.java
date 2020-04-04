@@ -60,14 +60,18 @@ public class DetailActivity extends AppCompatActivity {
     private int userRating;
     private String releaseDate;
 
-    // ArrayList to hold all the YouTube URLs of this Movie
-    // We will only display maximum 3 videos
+    // ArrayList to hold all the YouTube URLs of this Movie.
+    // We will only display maximum 3 videos.
+    // This is static because we will use it in a static AsyncTask.
     private static List<String> videoUrls = new ArrayList<>();
 
     // the position of the videos in the ArrayList
     private int FIRST_VIDEO_INDEX = 0;
     private int SECOND_VIDEO_INDEX = 1;
     private int THIRD_VIDEO_INDEX = 2;
+
+    // ArrayList to hold all the reviews of this Movie
+    private static List<String> allReviews = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,19 +211,25 @@ public class DetailActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            /*
+                Get the reviews of this movie in a background task
+             */
+            new FetchReviewsFromMovieTask(this).execute(id);
         }
     }
 
+    // play a video using an Intent given a URL
     private void playVideo(String urlText) {
         Uri videoUri = Uri.parse(urlText);
         Intent playVideoIntent = new Intent(Intent.ACTION_VIEW);
         playVideoIntent.setData(videoUri);
         if (playVideoIntent.resolveActivity(getPackageManager()) != null) {
-            //Log.d(TAG, "starting video using URL " + urlText);
             startActivity(playVideoIntent);
         }
     }
 
+    // background task to fetch YouTube video URLs
     static class FetchVideosFromMovieTask extends AsyncTask<Integer, Void, List<String>>
     {
         // use a weak reference to DetailActivity to get UI components and still avoid potential memory leak
@@ -240,7 +250,7 @@ public class DetailActivity extends AppCompatActivity {
             int id = integers[0];
 
             // URL to get the videos
-            URL videoUrl = NetworkUtils.buildVideoUrl(id);
+            URL videoUrl = NetworkUtils.buildVideosUrl(id);
 
             try {
 
@@ -262,6 +272,7 @@ public class DetailActivity extends AppCompatActivity {
         protected void onPostExecute(List<String> strings) {
             super.onPostExecute(strings);
 
+            // get the video URLs
             DetailActivity.videoUrls = strings;
 
             // get a reference to the activity if it is still there
@@ -286,10 +297,6 @@ public class DetailActivity extends AppCompatActivity {
             if (videoUrls != null) {
                 int numVideos = videoUrls.size();
 
-                /*for (int i = 0; i < videoUrls.size(); i++) {
-                    Log.d(TAG, "video url " + videoUrls.get(i));
-                }*/
-
                 /* If a movie only has a certain number of videos,
                    don't show the remaining buttons */
                 if (numVideos < 1) {
@@ -312,6 +319,89 @@ public class DetailActivity extends AppCompatActivity {
             else
             {
                 Log.e(TAG, "Video URLs list is null.");
+            }
+        }
+    }
+
+    static class FetchReviewsFromMovieTask extends AsyncTask<Integer, Void, List<String>>
+    {
+        private WeakReference<DetailActivity> activityReference;
+
+        // only retain a weak reference to the activity
+        FetchReviewsFromMovieTask(DetailActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected List<String> doInBackground(Integer... integers) {
+            if (integers.length == 0) {
+                return null;
+            }
+
+            int id = integers[0];
+
+            // URL to get the reviews
+            URL reviewsUrl = NetworkUtils.buildReviewsUrl(id);
+
+            try {
+
+                String jsonReviewsResponse = NetworkUtils
+                        .getResponseFromHttpUrl(reviewsUrl);
+
+                List<String> simpleJsonReviewStrings = MovieJsonUtils
+                        .getSimpleReviewStringsFromJson(jsonReviewsResponse);
+
+                return simpleJsonReviewStrings;
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(List<String> strings) {
+            super.onPostExecute(strings);
+
+            // get the reviews
+            allReviews = strings;
+
+            // get a reference to the activity if it is still there
+            DetailActivity activity = activityReference.get();
+            if (activity == null || activity.isFinishing()) return;
+
+            // modify the activity's UI
+            TextView reviewsLabel = activity.findViewById(R.id.textView7);
+            // the TextView which will hold all reviews
+            TextView reviewsDisplay = activity.findViewById(R.id.tv_display_reviews);
+
+            if (allReviews != null)
+            {
+                if (allReviews.size() < 1)
+                {
+                    /* If there are no reviews available,
+                     remove the reviews label and hide the TextView */
+                    reviewsLabel.setVisibility(View.GONE);
+                    reviewsDisplay.setVisibility(View.INVISIBLE);
+                }
+                else
+                {
+                    /*
+                        Set both the reviews label and reviews themselves visible/
+                     */
+                    reviewsLabel.setVisibility(View.VISIBLE);
+                    reviewsDisplay.setVisibility(View.VISIBLE);
+
+                    String review;
+
+                    for (int i = 0; i < allReviews.size(); i++)
+                    {
+                        //Log.d(TAG, review);
+                        review = allReviews.get(i);
+                        reviewsDisplay.append(review);
+                        // Separate reviews with a newline.
+                        reviewsDisplay.append("\n\n");
+                    }
+                }
             }
         }
     }

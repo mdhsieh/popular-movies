@@ -101,7 +101,7 @@ public final class MovieJsonUtils {
 
         final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
-        // only include videos that are trailers. Other option is "Featurette"
+        // Only include videos that are trailers. Other option is "Featurette"
         final String STRING_TRAILER = "Trailer";
 
         // list of parsed video URLs that will be returned
@@ -137,5 +137,54 @@ public final class MovieJsonUtils {
         }
 
         return parsedVideoStrings;
+    }
+
+    /**
+     * This method parses JSON from a specified movie and returns an ArrayList of Strings
+     * which are viewers' reviews of that movie.
+     *
+     * @param jsonReviewsResponse The parsed json response from the specified movie
+     *
+     * @return list which has the reviews of the movie
+     *
+     */
+    public static List<String> getSimpleReviewStringsFromJson(String jsonReviewsResponse) throws JSONException {
+
+        // list of parsed video URLs that will be returned
+        ArrayList<String> parsedReviewStrings = new ArrayList<String>();
+
+        //Log.d(TAG, "reviews json string is " + jsonReviewsResponse);
+
+        // parse the json string
+        JSONObject reviewsJson = new JSONObject(jsonReviewsResponse);
+
+        JSONArray reviewResultsArray = reviewsJson.optJSONArray("results");
+
+        //Log.d(TAG, "reviews results array is " + reviewResultsArray);
+
+        // json object of the entire review that has info like author, content, and URL
+        JSONObject reviewResultObject;
+        // author of the review
+        String reviewAuthor;
+        // content of the review
+        String reviewContent;
+
+        if (reviewResultsArray != null) {
+            final int NUM_VIDEO_RESULTS = reviewResultsArray.length();
+
+            for (int i = 0; i < NUM_VIDEO_RESULTS; i++) {
+                reviewResultObject = reviewResultsArray.optJSONObject(i);
+
+                reviewAuthor = reviewResultObject.optString("author");
+
+                reviewContent = reviewResultObject.optString("content");
+
+                // include both the author and content of the review
+                parsedReviewStrings.add("Author: " + reviewAuthor +
+                        "\n\n" + reviewContent);
+            }
+        }
+
+        return parsedReviewStrings;
     }
 }

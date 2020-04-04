@@ -65,7 +65,6 @@
             app:layout_constraintStart_toEndOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/tv_display_synopsis" />
 
-        <!--android:paddingBottom="32dp"-->
         <TextView
             android:id="@+id/textView5"
             style="@android:style/TextAppearance.Medium"
@@ -78,7 +77,6 @@
             app:layout_constraintBaseline_toBaselineOf="@+id/tv_display_release_date"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <!--android:paddingBottom="32dp"-->
         <TextView
             android:id="@+id/tv_display_release_date"
             android:layout_width="400dp"
@@ -146,13 +144,36 @@
             android:layout_marginStart="8dp"
             android:layout_marginLeft="8dp"
             android:layout_marginTop="24dp"
-
-            android:layout_marginBottom="32dp"
-
             android:text="@string/detail_play_trailer_3_label"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/btn_video_2" />
+
+        <TextView
+            android:id="@+id/textView7"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@android:style/TextAppearance.Medium"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/detail_reviews_label"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btn_video_3" />
+
+        <!--android:paddingBottom="32dp"-->
+        <TextView
+            android:id="@+id/tv_display_reviews"
+            android:layout_width="400dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="32dp"
+            tools:text="Reviews are displayed here"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView7" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

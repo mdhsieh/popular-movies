@@ -55,9 +55,11 @@ public final class NetworkUtils {
 
     // example: http://api.themoviedb.org/3/movie/<movie_id>/videos?api_key=<api_key>
 
-    // To get the Youtube URL get the movie's key and use https://www.youtube.com/watch?v=<key>
+    // To get the Youtube URL get the video's key and use https://www.youtube.com/watch?v=<key>
 
     private final static String VIDEO_PARAM = "/videos";
+
+    private final static String REVIEWS_PARAM = "/reviews";
 
     private final static String API_KEY_PARAM = "api_key=" + ApiKey.getApiKey();
 
@@ -102,7 +104,7 @@ public final class NetworkUtils {
      * @param id The ID of the movie.
      * @return The URL to use to query MovieDB.
      */
-    public static URL buildVideoUrl(int id) {
+    public static URL buildVideosUrl(int id) {
 
         URL url = null;
 
@@ -110,11 +112,35 @@ public final class NetworkUtils {
 
             url = new URL(MOVIE_BASE_URL + "/" + id + VIDEO_PARAM + QUESTION_PARAM + API_KEY_PARAM);
         } catch (MalformedURLException e) {
-            Log.e(TAG, "malformed url exception", e);
+            Log.e(TAG, "malformed url exception while building video url", e);
             e.printStackTrace();
         }
 
         Log.v(TAG, "Built video URL " + url);
+
+        return url;
+    }
+
+    /**
+     * Builds the URL used to get the video of a movie
+     * specified by the movie's ID.
+     *
+     * @param id The ID of the movie.
+     * @return The URL to use to query MovieDB.
+     */
+    public static URL buildReviewsUrl(int id) {
+
+        URL url = null;
+
+        try {
+
+            url = new URL(MOVIE_BASE_URL + "/" + id + REVIEWS_PARAM + QUESTION_PARAM + API_KEY_PARAM);
+        } catch (MalformedURLException e) {
+            Log.e(TAG, "malformed url exception while building reviews url", e);
+            e.printStackTrace();
+        }
+
+        Log.v(TAG, "Built reviews URL " + url);
 
         return url;
     }
