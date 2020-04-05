@@ -1,14 +1,11 @@
 package com.example.android.popularmovies.database;
 
-//import android.os.Parcel;
-//import android.os.Parcelable;
-
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "movie_table")
-public class FavoriteMovie { //implements Parcelable {
+public class FavoriteMovie {
 
     private final String BASE_URL = "http://image.tmdb.org/t/p/";
     private static String POSTER_SIZE = "w185";
@@ -31,11 +28,11 @@ public class FavoriteMovie { //implements Parcelable {
     public FavoriteMovie(int id, String title, String posterURL, String synopsis, int userRating, String releaseDate, String backdropURL) {
         this.id = id;
         this.title = title;
-        this.posterURL = posterURL; // BASE_URL + POSTER_SIZE + posterURL;
+        this.posterURL = posterURL;
         this.synopsis = synopsis;
         this.userRating = userRating;
         this.releaseDate = releaseDate;
-        this.backdropURL = backdropURL;  // BASE_URL + BACKDROP_SIZE + backdropURL;
+        this.backdropURL = backdropURL;
     }
 
     public int getId() {
@@ -67,8 +64,8 @@ public class FavoriteMovie { //implements Parcelable {
     }
 
 
-    // we only want the last part of the poster URL when constructing a new Movie object
-    // from a FavoriteMovie object
+    // We only want the last part of the poster URL when constructing a new Movie object
+    // from a FavoriteMovie object.
     public String getPartialPosterURL()
     {
         String partialPosterURL = posterURL;
@@ -77,8 +74,8 @@ public class FavoriteMovie { //implements Parcelable {
         return partialPosterURL;
     }
 
-    // we only want the last part of the backdrop URL when constructing a new Movie object
-    // from a FavoriteMovie object
+    // We only want the last part of the backdrop URL when constructing a new Movie object
+    // from a FavoriteMovie object.
     public String getPartialBackdropURL() {
         String partialBackdropURL = backdropURL;
         partialBackdropURL = partialBackdropURL.replace(BASE_URL, "");
@@ -100,48 +97,5 @@ public class FavoriteMovie { //implements Parcelable {
         FavoriteMovie.POSTER_SIZE = POSTER_SIZE;
     }
 
-    /* in the case you have more than one field to retrieve from a given Parcel,
-    you must do this in the same order you put them in (that is, in a FIFO approach)*/
-
-    /*
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    // write object's data to the passed-in Parcel
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeInt(id);
-        dest.writeString(title);
-        dest.writeString(posterURL);
-        dest.writeString(synopsis);
-        dest.writeInt(userRating);
-        dest.writeString(releaseDate);
-        dest.writeString(backdropURL);
-    }
-
-    // this is used to regenerate the object. All Parcelables must have a CREATOR that implements these two methods
-    public static final Parcelable.Creator<FavoriteMovie> CREATOR = new Parcelable.Creator<FavoriteMovie>() {
-        public FavoriteMovie createFromParcel(Parcel in) {
-            return new FavoriteMovie(in);
-        }
-
-        public FavoriteMovie[] newArray(int size) {
-            return new FavoriteMovie[size];
-        }
-    };
-
-    // constructor that takes a Parcel and gives you an object populated with its values
-    private FavoriteMovie(Parcel in) {
-        id = in.readInt();
-        title = in.readString();
-        posterURL = in.readString();
-        synopsis = in.readString();
-        userRating = in.readInt();
-        releaseDate = in.readString();
-        backdropURL = in.readString();
-    }
-    */
 }
 

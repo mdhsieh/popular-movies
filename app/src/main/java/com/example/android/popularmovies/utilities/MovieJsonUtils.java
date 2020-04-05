@@ -29,8 +29,6 @@ import java.util.List;
  */
 public final class MovieJsonUtils {
 
-    private final static String TAG = MovieJsonUtils.class.getSimpleName();
-
     /**
      * This method parses JSON from a web response and returns an ArrayList of Movies
      * describing the movie from the list of movie results.
@@ -62,9 +60,6 @@ public final class MovieJsonUtils {
         int userRating;
         String releaseDate;
         String backdropPath;
-
-        // URL to get video
-        //URL videoURL;
 
         for (int i = 0; i < NUM_MOVIE_RESULTS; i++)
         {
@@ -98,7 +93,7 @@ public final class MovieJsonUtils {
 
         final String BASE_YOUTUBE_URL = "https://www.youtube.com/watch?v=";
 
-        // Only include videos that are trailers. Other option is "Featurette"
+        // Only include videos that are trailers. Other option is "Featurette".
         final String STRING_TRAILER = "Trailer";
 
         // list of parsed video URLs that will be returned
@@ -109,7 +104,7 @@ public final class MovieJsonUtils {
 
         JSONArray videoResultsArray = videoJson.optJSONArray("results");
 
-        // json object of the entire video response that has info like video  key, name, and type
+        // json object of the entire video response that has info like video key, name, and type
         JSONObject videoResultObject;
         // string that tells whether each video is a trailer or short featurette
         String videoType;
@@ -155,7 +150,7 @@ public final class MovieJsonUtils {
 
         JSONArray reviewResultsArray = reviewsJson.optJSONArray("results");
 
-        // json object of the entire review that has info like author, content, and URL
+        // json object of the entire review that has info like author, content, and review URL
         JSONObject reviewResultObject;
         // author of the review
         String reviewAuthor;

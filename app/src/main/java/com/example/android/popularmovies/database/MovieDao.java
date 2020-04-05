@@ -19,7 +19,4 @@ public interface MovieDao {
 
     @Query("SELECT * FROM movie_table")
     LiveData<List<FavoriteMovie>> loadAllMovies();
-
-    @Query("SELECT * FROM movie_table WHERE id = :id")
-    LiveData<FavoriteMovie> loadMovieById(int id);
 }

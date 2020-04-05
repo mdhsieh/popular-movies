@@ -73,8 +73,8 @@ public class Movie implements Parcelable {
         Movie.POSTER_SIZE = POSTER_SIZE;
     }
 
-    /* in the case you have more than one field to retrieve from a given Parcel,
-    you must do this in the same order you put them in (that is, in a FIFO approach)*/
+    /* In the case you have more than one field to retrieve from a given Parcel,
+    you must do this in the same order you put them in (that is, in a FIFO approach). */
 
     @Override
     public int describeContents() {
@@ -93,7 +93,7 @@ public class Movie implements Parcelable {
         dest.writeString(backdropURL);
     }
 
-    // this is used to regenerate the object. All Parcelables must have a CREATOR that implements these two methods
+    // This is used to regenerate the object. All Parcelables must have a CREATOR that implements these two methods
     public static final Parcelable.Creator<Movie> CREATOR = new Parcelable.Creator<Movie>() {
         public Movie createFromParcel(Parcel in) {
             return new Movie(in);

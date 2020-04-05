@@ -26,7 +26,7 @@ import java.util.Scanner;
 import javax.net.ssl.HttpsURLConnection;
 
 /**
- * These utilities will be used to communicate with the weather servers.
+ * These utilities will be used to communicate with The Movie Database (The Movie DB).
  */
 public final class NetworkUtils {
 
@@ -45,7 +45,7 @@ public final class NetworkUtils {
 
     private static final String OPTION_RATED_PARAM = "/top_rated";
 
-    final static String QUESTION_PARAM = "?";
+    private final static String QUESTION_PARAM = "?";
 
     /*
         In order to fetch a movie's videos and reviews you will want to request data from
@@ -67,7 +67,7 @@ public final class NetworkUtils {
      * Builds the URL used to talk to MovieDB using an option.
      *
      * @param optionQuery The option that will be queried for.
-     * @return The URL to use to query MovieDB.
+     * @return The URL to use to query The Movie DB.
      */
     public static URL buildUrl(String optionQuery) {
 
@@ -91,8 +91,6 @@ public final class NetworkUtils {
             e.printStackTrace();
         }
 
-        Log.v(TAG, "Built URL " + url);
-
         return url;
     }
 
@@ -102,7 +100,7 @@ public final class NetworkUtils {
      * specified by the movie's ID.
      *
      * @param id The ID of the movie.
-     * @return The URL to use to query MovieDB.
+     * @return The URL to use to query The Movie DB.
      */
     public static URL buildVideosUrl(int id) {
 
@@ -115,8 +113,6 @@ public final class NetworkUtils {
             Log.e(TAG, "malformed url exception while building video url", e);
             e.printStackTrace();
         }
-
-        Log.v(TAG, "Built video URL " + url);
 
         return url;
     }
@@ -139,8 +135,6 @@ public final class NetworkUtils {
             Log.e(TAG, "malformed url exception while building reviews url", e);
             e.printStackTrace();
         }
-
-        Log.v(TAG, "Built reviews URL " + url);
 
         return url;
     }

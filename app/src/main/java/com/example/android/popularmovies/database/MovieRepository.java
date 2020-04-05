@@ -12,8 +12,6 @@ class MovieRepository {
     private MovieDao movieDao;
     private LiveData<List<FavoriteMovie>> allMovies;
 
-    private static LiveData<FavoriteMovie> movie;
-
     MovieRepository(@NonNull Application application) {
         MovieRoomDatabase database = MovieRoomDatabase.getInstance(application);
         movieDao = database.movieDao();
@@ -44,15 +42,5 @@ class MovieRepository {
                 movieDao.delete(movie);
             }
         });
-    }
-
-    LiveData<FavoriteMovie> getMovieById(final int id) {
-        MovieRoomDatabase.databaseWriteExecutor.execute(new Runnable() {
-            @Override
-            public void run() {
-                movie = movieDao.loadMovieById(id);
-            }
-        });
-        return movie;
     }
 }

@@ -13,8 +13,6 @@ public class MovieViewModel extends AndroidViewModel {
     private MovieRepository repository;
     private LiveData<List<FavoriteMovie>> allMovies;
 
-    private LiveData<FavoriteMovie> movie;
-
     public MovieViewModel(@NonNull Application application) {
         super(application);
 
@@ -32,10 +30,5 @@ public class MovieViewModel extends AndroidViewModel {
 
     public void deleteMovie(FavoriteMovie movie) {
         repository.deleteMovie(movie);
-    }
-
-    public LiveData<FavoriteMovie> getMovieById(int id) {
-        movie = repository.getMovieById(id);
-        return movie;
     }
 }

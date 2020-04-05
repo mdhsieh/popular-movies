@@ -77,8 +77,8 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     private boolean deviceSizeIsChecked = false;
 
     // image sizes for tablets
-    private static final String TABLET_POSTER_SIZE = "w500";   //"w342";
-    private static final String TABLET_BACKDROP_SIZE = "w780";  //"w500";
+    private static final String TABLET_POSTER_SIZE = "w500";
+    private static final String TABLET_BACKDROP_SIZE = "w780";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -153,17 +153,17 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
             double diagonalInches = Math.sqrt(xInches * xInches + yInches * yInches);
             if (diagonalInches >= MIN_TABLET_SCREEN_INCHES) {
                 // 6.5 inch device or bigger
-                Log.d(TAG, "The device is a tablet");
+
                 // set image sizes for Movies
                 Movie.setPOSTER_SIZE(TABLET_POSTER_SIZE);
                 Movie.setBACKDROP_SIZE(TABLET_BACKDROP_SIZE);
                 // set image sizes for FavoriteMovies. These must be same as Movies
                 FavoriteMovie.setPOSTER_SIZE(TABLET_POSTER_SIZE);
                 FavoriteMovie.setBACKDROP_SIZE(TABLET_BACKDROP_SIZE);
-            } else {
-                // smaller device, probably a phone, so don't change sizes and keep default sizes
-                Log.d(TAG, "The device is a phone");
             }
+            // otherwise,
+            // smaller device, probably a phone, so don't change sizes
+
             deviceSizeIsChecked = true;
         }
 
@@ -275,6 +275,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /**
      * This method will make the View for the movie data visible and
      * hide the error message.
+     *
+     * It will also remove the message displayed if there are no favorites
+     * added yet.
      */
     private void showMovieDataView() {
         // First, make sure the error is invisible
@@ -289,6 +292,9 @@ public class MainActivity extends AppCompatActivity implements MovieAdapter.Movi
     /**
      * This method will make the error message visible and hide the movie
      * View.
+     *
+     * It will also remove the message displayed if there are no favorites
+     * added yet.
      */
     private void showErrorMessage() {
         // First, hide the currently visible data
