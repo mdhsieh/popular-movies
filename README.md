@@ -1,5 +1,5 @@
 # Popular Movies
-View movies sorted by most popular or highest rated.
+View movies sorted by most popular, highest rated, or the user's favorites.
 
 ## Installation
 To run the app, you must make an account and request your personal API key from The Movie DB.
@@ -28,6 +28,7 @@ public class ApiKey {
 - Fetches data from the Internet with The Movie DB API
 - Presents user with a grid arrangement of movie posters upon launch
 - Allows the user to change sort order by most popular or highest-rated
+- Allows the user to view and add movies to a favorites collection
 - Allows the user to tap on a movie poster and transition to a details screen with additional information such as:
   - title
   - movie backdrop image
