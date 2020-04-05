@@ -10,7 +10,7 @@ Instructions are at: https://developers.themoviedb.org/3/getting-started/introdu
 
 Once you have a key, create a class called ApiKey with your key accessed by a static method `getApiKey()`.
 
-For example:
+For example, you can copy-paste the following file into the "utilities" package:
 ```
 package com.example.android.popularmovies.utilities;
 
@@ -36,5 +36,6 @@ public class ApiKey {
   - release date
 
 ## Screenshots
-![movie poster grid view](popular_movies_1.PNG)
-![movie detail screen](popular_movies_2.PNG)
+![movie poster grid view](popular_movies_3.PNG)
+![movie detail screen with favorites icon](popular_movies_4.PNG)
+![movie detail screen of trailer button and review](popular_movies_5.PNG)

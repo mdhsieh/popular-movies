@@ -61,7 +61,7 @@ public class DetailActivity extends AppCompatActivity {
     private String releaseDate;
 
     // ArrayList to hold all the YouTube URLs of this Movie.
-    // We will only display maximum 3 videos.
+    // We will only display a maximum of 3 videos.
     // This is static because we will use it in a static AsyncTask.
     private static List<String> videoUrls = new ArrayList<>();
 
@@ -72,6 +72,9 @@ public class DetailActivity extends AppCompatActivity {
 
     // ArrayList to hold all the reviews of this Movie
     private static List<String> allReviews = new ArrayList<>();
+
+    // We will only display a maximum of 5 reviews.
+    private static final int MAX_NUM_REVIEWS = 5;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -386,16 +389,15 @@ public class DetailActivity extends AppCompatActivity {
                 else
                 {
                     /*
-                        Set both the reviews label and reviews themselves visible/
+                        Set both the reviews label and reviews themselves visible
                      */
                     reviewsLabel.setVisibility(View.VISIBLE);
                     reviewsDisplay.setVisibility(View.VISIBLE);
 
                     String review;
 
-                    for (int i = 0; i < allReviews.size(); i++)
+                    for (int i = 0; i < MAX_NUM_REVIEWS && i < allReviews.size(); i++)
                     {
-                        //Log.d(TAG, review);
                         review = allReviews.get(i);
                         reviewsDisplay.append(review);
                         // Separate reviews with a newline.

@@ -15,15 +15,12 @@
  */
 package com.example.android.popularmovies.utilities;
 
-import android.util.Log;
-
 import com.example.android.popularmovies.model.Movie;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -153,14 +150,10 @@ public final class MovieJsonUtils {
         // list of parsed video URLs that will be returned
         ArrayList<String> parsedReviewStrings = new ArrayList<String>();
 
-        //Log.d(TAG, "reviews json string is " + jsonReviewsResponse);
-
         // parse the json string
         JSONObject reviewsJson = new JSONObject(jsonReviewsResponse);
 
         JSONArray reviewResultsArray = reviewsJson.optJSONArray("results");
-
-        //Log.d(TAG, "reviews results array is " + reviewResultsArray);
 
         // json object of the entire review that has info like author, content, and URL
         JSONObject reviewResultObject;
